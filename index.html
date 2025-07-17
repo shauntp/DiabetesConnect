@@ -234,6 +234,105 @@
             color: white;
         }
 
+        /* Network Section */
+        .network {
+            padding: 100px 0;
+            background: #f8f9fa;
+        }
+
+        .network-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .network-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .network-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .network-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4a90e2, #50c878, #ff6b6b, #ffd93d);
+        }
+
+        .network-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .network-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+            opacity: 0.8;
+        }
+
+        .network-card h3 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+            letter-spacing: -0.3px;
+        }
+
+        .network-card p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .network-highlight {
+            display: inline-block;
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .network-connections {
+            margin-top: 80px;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .network-connections h3 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .network-connections p {
+            font-size: 18px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
         /* Mission Section */
         .mission {
             padding: 100px 0;
@@ -455,6 +554,20 @@
                 grid-template-columns: 1fr;
             }
             
+            .network-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            
+            .network-card {
+                padding: 30px 20px;
+            }
+            
+            .network-connections {
+                margin-top: 40px;
+                padding: 40px 20px;
+            }
+            
             .mission-stats {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -471,6 +584,7 @@
             <a href="#home" class="logo">DiabetesConnect</a>
             <ul class="nav-links">
                 <li><a href="#services">Services</a></li>
+                <li><a href="#network">Our Network</a></li>
                 <li><a href="#mission">Mission</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
@@ -504,7 +618,7 @@
                 <div class="service-card">
                     <div class="service-icon">💊</div>
                     <h3>Medication Management</h3>
-                    <p>Secure, temperature-controlled medication storage and dispensing through our innovative anti-theft device designed specifically for vulnerable populations.</p>
+                    <p>Secure, temperature-controlled medication storage and dispensing through our innovative anti-theft device designed specifically for vulnerable populations. Our climate-controlled system helps prevent medication theft while ensuring proper dosing schedules.</p>
                     <button class="cta-button" onclick="scrollToSection('contact')">Learn More</button>
                 </div>
                 <div class="service-card">
@@ -518,6 +632,78 @@
                     <h3>24/7 Support</h3>
                     <p>Round-the-clock access to diabetes educators and support specialists when you need them most.</p>
                     <button class="cta-button" onclick="scrollToSection('contact')">Learn More</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="network" class="network">
+        <div class="container">
+            <div class="network-content">
+                <h2 class="section-title">Our Network</h2>
+                <p class="section-subtitle">We've partnered with trusted healthcare providers and community organizations across the Inland Empire to ensure you have access to comprehensive diabetes care.</p>
+                
+                <div class="network-grid">
+                    <div class="network-card">
+                        <div class="network-icon">🏥</div>
+                        <h3>Riverside County Health Clinics</h3>
+                        <p>Specialized diabetes programs and comprehensive care through county health facilities with dedicated diabetes education and management services.</p>
+                        <div class="network-highlight">Diabetes Programs</div>
+                    </div>
+                    
+                    <div class="network-card">
+                        <div class="network-icon">👨‍⚕️</div>
+                        <h3>Endocrinologists</h3>
+                        <p>Direct connections to board-certified endocrinologists accepting new patients, specializing in diabetes and metabolic disorders.</p>
+                        <div class="network-highlight">Accepting New Patients</div>
+                    </div>
+                    
+                    <div class="network-card">
+                        <div class="network-icon">💊</div>
+                        <h3>Partner Pharmacies</h3>
+                        <p>Local pharmacies offering medication assistance programs, diabetes supplies, and specialized consultation services.</p>
+                        <div class="network-highlight">Medication Assistance</div>
+                    </div>
+                    
+                    <div class="network-card">
+                        <div class="network-icon">🏛️</div>
+                        <h3>Community Health Centers</h3>
+                        <p>Federally qualified health centers and community clinics providing accessible diabetes care and preventive services.</p>
+                        <div class="network-highlight">Accessible Care</div>
+                    </div>
+                    
+                    <div class="network-card">
+                        <div class="network-icon">🏃‍♀️</div>
+                        <h3>Fitness & Nutrition Programs</h3>
+                        <p>Local gyms, community centers, and nutrition programs offering diabetes-friendly exercise classes and dietary counseling.</p>
+                        <div class="network-highlight">Wellness Programs</div>
+                    </div>
+                    
+                    <div class="network-card">
+                        <div class="network-icon">🆓</div>
+                        <h3>Riverside Free Clinic</h3>
+                        <p>Providing free medical care, diabetes screenings, and ongoing management support for uninsured and underinsured patients.</p>
+                        <div class="network-highlight">Free Services</div>
+                    </div>
+                    
+                    <div class="network-card">
+                        <div class="network-icon">🎓</div>
+                        <h3>Cope Health Scholars</h3>
+                        <p>Healthcare education and community outreach programs connecting students with diabetes care initiatives and patient support.</p>
+                        <div class="network-highlight">Community Outreach</div>
+                    </div>
+                    
+                    <div class="network-card">
+                        <div class="network-icon">🏫</div>
+                        <h3>UCR Facilities</h3>
+                        <p>University of California, Riverside medical facilities and research programs supporting diabetes care and innovation.</p>
+                        <div class="network-highlight">Research & Care</div>
+                    </div>
+                </div>
+                
+                <div class="network-connections">
+                    <h3>Connected Care Network</h3>
+                    <p>Through our extensive network of healthcare providers, community organizations, and educational institutions, we ensure you have seamless access to comprehensive diabetes care. Our partnerships span across Riverside County, creating a supportive ecosystem for diabetes management and prevention.</p>
                 </div>
             </div>
         </div>
