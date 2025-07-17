@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DiabetesConnect - Connecting Patients to Diabetes Care and Community</title>
+    <title>DiabetesConnect - Your Diabetes Support Partner</title>
     <style>
         * {
             margin: 0;
@@ -12,7 +12,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Arial', sans-serif;
             line-height: 1.6;
             color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -44,9 +44,9 @@
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
-            color: #764ba2;
+            color: #667eea;
         }
 
         .nav-links {
@@ -60,10 +60,11 @@
             color: #333;
             font-weight: 500;
             transition: color 0.3s ease;
+            cursor: pointer;
         }
 
         .nav-links a:hover {
-            color: #764ba2;
+            color: #667eea;
         }
 
         /* Hero Section */
@@ -71,7 +72,7 @@
             padding: 120px 0 80px;
             text-align: center;
             color: white;
-            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         .hero h1 {
@@ -81,10 +82,9 @@
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin-bottom: 2rem;
-            opacity: 0.9;
-            animation: fadeInUp 1s ease-out 0.2s both;
+            animation: fadeInUp 1s ease-out 0.3s both;
         }
 
         .cta-button {
@@ -96,30 +96,25 @@
             border-radius: 50px;
             font-weight: bold;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-            animation: fadeInUp 1s ease-out 0.4s both;
+            animation: fadeInUp 1s ease-out 0.6s both;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
         }
 
         .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
-        }
-
-        /* Main Content */
-        .main-content {
-            background: white;
-            margin-top: -50px;
-            border-radius: 20px 20px 0 0;
-            position: relative;
-            z-index: 10;
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
         }
 
         /* Services Section */
         .services {
             padding: 80px 0;
+            background: white;
         }
 
-        .services h2 {
+        .section-title {
             text-align: center;
             font-size: 2.5rem;
             margin-bottom: 3rem;
@@ -140,23 +135,20 @@
             text-align: center;
             color: white;
             transform: translateY(0);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
         }
 
         .service-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .service-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
         }
 
         .service-card h3 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            margin-bottom: 1.5rem;
         }
 
         /* About Section */
@@ -174,58 +166,32 @@
 
         .about-text h2 {
             font-size: 2.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             color: #333;
         }
 
         .about-text p {
-            margin-bottom: 1.5rem;
             font-size: 1.1rem;
+            margin-bottom: 1.5rem;
             color: #666;
         }
 
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .stat-item {
+        .about-image {
             text-align: center;
-            padding: 1.5rem;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-size: 6rem;
+            color: #667eea;
         }
 
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #764ba2;
-            display: block;
-        }
-
-        /* Contact Form */
+        /* Contact Section */
         .contact {
             padding: 80px 0;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
 
-        .contact h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-        }
-
         .contact-form {
             max-width: 600px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
         }
 
         .form-group {
@@ -239,14 +205,13 @@
         }
 
         .form-group input,
-        .form-group select,
         .form-group textarea {
             width: 100%;
             padding: 12px;
             border: none;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
             font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
         }
 
         .form-group textarea {
@@ -263,13 +228,18 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 100%;
             font-size: 1.1rem;
         }
 
         .submit-btn:hover {
             background: #ff5252;
             transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
         }
 
         /* Footer */
@@ -292,22 +262,41 @@
             }
         }
 
+        /* Success Message */
+        .success-message {
+            background: #4caf50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .error-message {
+            background: #f44336;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
             .hero h1 {
                 font-size: 2.5rem;
             }
-
+            
+            .nav-links {
+                display: none;
+            }
+            
             .about-content {
                 grid-template-columns: 1fr;
             }
-
-            .stats {
-                grid-template-columns: 1fr;
+            
+            .about-image {
+                font-size: 4rem;
             }
         }
     </style>
@@ -320,181 +309,224 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="#contact">Get Help</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
 
     <section id="home" class="hero">
         <div class="container">
-            <h1>DiabetesConnect</h1>
-            <p>Connecting patients to diabetes care and community in the Inland Empire</p>
-            <a href="#contact" class="cta-button">Get Support Today</a>
+            <h1>Your Diabetes Support Partner</h1>
+            <p>Professional guidance, personalized care, and comprehensive support for your diabetes journey.</p>
+            <button class="cta-button" onclick="scrollToSection('services')">Get Started</button>
         </div>
     </section>
 
-    <div class="main-content">
-        <section id="services" class="services">
-            <div class="container">
-                <h2>How We Help</h2>
-                <div class="services-grid">
-                    <div class="service-card">
-                        <div class="service-icon">🔗</div>
-                        <h3>Care Navigation</h3>
-                        <p>We help you find and connect with diabetes specialists, primary care doctors, and diabetes educators in your area.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">💊</div>
-                        <h3>Medication Assistance</h3>
-                        <p>Connect with programs that help make insulin and diabetes medications more affordable and accessible.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">👥</div>
-                        <h3>Support Groups</h3>
-                        <p>Join our peer support groups where you can share experiences and learn from others managing diabetes.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">📚</div>
-                        <h3>Education Workshops</h3>
-                        <p>Free educational workshops covering nutrition, exercise, medication management, and diabetes complications.</p>
-                    </div>
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>📊 Blood Sugar Monitoring</h3>
+                    <p>Track and analyze your blood glucose levels with our advanced monitoring tools and personalized insights.</p>
+                    <button class="cta-button" onclick="scrollToSection('contact')">Learn More</button>
+                </div>
+                <div class="service-card">
+                    <h3>🍎 Nutrition Planning</h3>
+                    <p>Customized meal plans and nutritional guidance designed specifically for diabetes management.</p>
+                    <button class="cta-button" onclick="scrollToSection('contact')">Learn More</button>
+                </div>
+                <div class="service-card">
+                    <h3>💊 Medication Management</h3>
+                    <p>Professional support for medication adherence, timing, and coordination with your healthcare team.</p>
+                    <button class="cta-button" onclick="scrollToSection('contact')">Learn More</button>
+                </div>
+                <div class="service-card">
+                    <h3>🏃 Exercise Coaching</h3>
+                    <p>Safe and effective exercise programs tailored to your fitness level and diabetes management goals.</p>
+                    <button class="cta-button" onclick="scrollToSection('contact')">Learn More</button>
+                </div>
+                <div class="service-card">
+                    <h3>📱 24/7 Support</h3>
+                    <p>Round-the-clock access to diabetes educators and support specialists when you need them most.</p>
+                    <button class="cta-button" onclick="scrollToSection('contact')">Learn More</button>
+                </div>
+                <div class="service-card">
+                    <h3>📈 Progress Tracking</h3>
+                    <p>Comprehensive reporting and analytics to help you and your doctor track your diabetes management progress.</p>
+                    <button class="cta-button" onclick="scrollToSection('contact')">Learn More</button>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="about" class="about">
-            <div class="container">
-                <div class="about-content">
-                    <div class="about-text">
-                        <h2>Our Mission</h2>
-                        <p>DiabetesConnect addresses the diabetes care crisis in Riverside County and the Inland Empire. We recognize that having diabetes is challenging enough without having to navigate complex healthcare systems alone.</p>
-                        <p>Our team connects patients to existing diabetes care resources, provides peer support, and ensures no one faces diabetes management in isolation. We work with local healthcare providers, community organizations, and volunteers to create a comprehensive support network.</p>
-                        <p>Available in English and Spanish, our services meet you where you are in your diabetes journey.</p>
-                    </div>
-                    <div class="stats">
-                        <div class="stat-item">
-                            <span class="stat-number">14%</span>
-                            <span>of Inland Empire adults have diabetes</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">500K+</span>
-                            <span>people affected by diabetes in our region</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">35</span>
-                            <span>physicians per 100,000 residents</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">FREE</span>
-                            <span>all our services are completely free</span>
-                        </div>
-                    </div>
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>About DiabetesConnect</h2>
+                    <p>We are a team of certified diabetes educators, nutritionists, and healthcare professionals dedicated to helping you manage your diabetes with confidence and ease.</p>
+                    <p>Our comprehensive approach combines cutting-edge technology with personalized care to provide you with the tools and support you need to live a healthy, fulfilling life with diabetes.</p>
+                    <p>With over 15 years of experience in diabetes care, we've helped thousands of patients achieve better blood sugar control and improved quality of life.</p>
+                    <button class="cta-button" onclick="scrollToSection('contact')">Get Started Today</button>
+                </div>
+                <div class="about-image">
+                    🏥
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="contact" class="contact">
-            <div class="container">
-                <h2>Get Connected Today</h2>
-                <form class="contact-form" id="supportForm">
-                    <div class="form-group">
-                        <label for="name">Full Name *</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone Number *</label>
-                        <input type="tel" id="phone" name="phone" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email">
-                    </div>
-                    <div class="form-group">
-                        <label for="language">Preferred Language</label>
-                        <select id="language" name="language">
-                            <option value="english">English</option>
-                            <option value="spanish">Español</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="services">What support do you need? *</label>
-                        <select id="services" name="services" required>
-                            <option value="">Select a service</option>
-                            <option value="navigation">Help finding diabetes care</option>
-                            <option value="medication">Medication assistance</option>
-                            <option value="support">Join support group</option>
-                            <option value="education">Educational workshops</option>
-                            <option value="multiple">Multiple services</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="situation">Tell us about your situation</label>
-                        <textarea id="situation" name="situation" placeholder="Share any details that would help us connect you with the right resources..."></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Connect Me to Support</button>
-                </form>
-            </div>
-        </section>
-    </div>
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <form class="contact-form" id="contactForm">
+                <div class="success-message" id="successMessage">
+                    Thank you for your message! We'll get back to you within 24 hours.
+                </div>
+                <div class="error-message" id="errorMessage">
+                    Please fill out all required fields.
+                </div>
+                
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                
+                <div class="form-group">
+                    <label for="service">Service Interest</label>
+                    <select id="service" name="service" style="width: 100%; padding: 12px; border: none; border-radius: 5px; font-size: 1rem; background: rgba(255, 255, 255, 0.9);">
+                        <option value="">Select a service...</option>
+                        <option value="blood-sugar-monitoring">Blood Sugar Monitoring</option>
+                        <option value="nutrition-planning">Nutrition Planning</option>
+                        <option value="medication-management">Medication Management</option>
+                        <option value="exercise-coaching">Exercise Coaching</option>
+                        <option value="24-7-support">24/7 Support</option>
+                        <option value="progress-tracking">Progress Tracking</option>
+                        <option value="general-inquiry">General Inquiry</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message *</label>
+                    <textarea id="message" name="message" placeholder="Tell us about your diabetes management goals and how we can help you..." required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submitBtn">Send Message</button>
+            </form>
+        </div>
+    </section>
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 DiabetesConnect. A nonprofit organization serving the Inland Empire. All services are free and confidential.</p>
+            <p>&copy; 2024 DiabetesConnect. All rights reserved. | Professional diabetes support services.</p>
         </div>
     </footer>
 
     <script>
         // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        // Add click event listeners to navigation links
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+                const targetId = this.getAttribute('href').substring(1);
+                scrollToSection(targetId);
             });
         });
 
-        // Form submission handling
-        document.getElementById('supportForm').addEventListener('submit', function(e) {
+        // Contact form functionality
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Hide previous messages
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
             
             // Get form data
             const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
+            const name = formData.get('name').trim();
+            const email = formData.get('email').trim();
+            const message = formData.get('message').trim();
             
-            // Simple validation
-            if (!data.name || !data.phone || !data.services) {
-                alert('Please fill out all required fields.');
+            // Basic validation
+            if (!name || !email || !message) {
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                errorMessage.textContent = 'Please enter a valid email address.';
+                errorMessage.style.display = 'block';
                 return;
             }
             
             // Simulate form submission
-            const submitBtn = this.querySelector('.submit-btn');
-            const originalText = submitBtn.textContent;
-            
-            submitBtn.textContent = 'Connecting you...';
             submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
             
+            // Simulate API call delay
             setTimeout(() => {
-                alert('Thank you! We will contact you within 24 hours to connect you with the diabetes support you need.');
-                this.reset();
-                submitBtn.textContent = originalText;
+                successMessage.style.display = 'block';
                 submitBtn.disabled = false;
-            }, 2000);
+                submitBtn.textContent = 'Send Message';
+                
+                // Reset form
+                this.reset();
+                
+                // Log form data (in a real app, this would be sent to your server)
+                console.log('Form submitted:', {
+                    name: name,
+                    email: email,
+                    phone: formData.get('phone'),
+                    service: formData.get('service'),
+                    message: message,
+                    timestamp: new Date().toISOString()
+                });
+                
+                // Scroll to success message
+                successMessage.scrollIntoView({ behavior: 'smooth' });
+            }, 1500);
         });
 
-        // Add scroll effect to header
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.style.background = 'rgba(255, 255, 255, 0.98)';
-            } else {
-                header.style.background = 'rgba(255, 255, 255, 0.95)';
-            }
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to service cards
+            const serviceCards = document.querySelectorAll('.service-card');
+            serviceCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
         });
     </script>
 </body>
