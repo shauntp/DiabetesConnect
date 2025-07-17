@@ -178,28 +178,31 @@
             animation: fadeInUp 1s ease-out 0.3s both;
         }
 
-        .mission-values {
+        /* Mission Stats */
+        .mission-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
         }
 
-        .value-item {
+        .stat-item {
             background: rgba(255, 255, 255, 0.1);
             padding: 1.5rem;
             border-radius: 10px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             animation: fadeInUp 1s ease-out 0.6s both;
+            text-align: center;
         }
 
-        .value-item h3 {
-            font-size: 1.2rem;
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
             margin-bottom: 0.5rem;
         }
 
-        .value-item p {
+        .stat-label {
             font-size: 0.9rem;
             opacity: 0.9;
         }
@@ -512,7 +515,13 @@
         </div>
     </footer>
 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script>
+        // Initialize EmailJS with the correct method
+        (function() {
+            emailjs.init('GnlXU87Za8zpX6HPd');
+        })();
+        
         // Smooth scrolling for navigation links
         function scrollToSection(sectionId) {
             const section = document.getElementById(sectionId);
@@ -533,7 +542,7 @@
             });
         });
 
-        // Contact form functionality
+        // Contact form functionality with EmailJS
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -549,10 +558,13 @@
             const formData = new FormData(this);
             const name = formData.get('name').trim();
             const email = formData.get('email').trim();
+            const phone = formData.get('phone').trim();
+            const service = formData.get('service');
             const message = formData.get('message').trim();
             
             // Basic validation
             if (!name || !email || !message) {
+                errorMessage.textContent = 'Please fill out all required fields.';
                 errorMessage.style.display = 'block';
                 return;
             }
@@ -565,32 +577,66 @@
                 return;
             }
             
-            // Simulate form submission
+            // Disable submit button
             submitBtn.disabled = true;
             submitBtn.textContent = 'Sending...';
             
-            // Simulate API call delay
-            setTimeout(() => {
+            // Method 1: Using EmailJS (Recommended)
+            // You'll need to replace these with your actual EmailJS credentials
+            const templateParams = {
+                from_name: name,
+                from_email: email,
+                phone: phone || 'Not provided',
+                service_interest: service || 'Not specified',
+                message: message,
+                to_email: 'shauntgpapelian@gmail.com'
+            };
+            
+            // EmailJS send - using the correct method
+            emailjs.send('service_v0l47ro', 'template_88qtsho', templateParams)
+                .then(function(response) {
+                    console.log('Email sent successfully!', response.status, response.text);
+                    showSuccess();
+                })
+                .catch(function(error) {
+                    console.log('Email failed to send:', error);
+                    // Fallback to mailto
+                    sendViaMailto();
+                });
+            
+            function sendViaMailto() {
+                // Method 2: Fallback using mailto (opens user's email client)
+                const subject = encodeURIComponent('DiabetesConnect Contact Form - ' + (service || 'General Inquiry'));
+                const body = encodeURIComponent(`
+Name: ${name}
+Email: ${email}
+Phone: ${phone || 'Not provided'}
+Service Interest: ${service || 'Not specified'}
+
+Message:
+${message}
+
+---
+Sent from DiabetesConnect website contact form
+                `);
+                
+                const mailtoLink = `mailto:shauntgpapelian@gmail.com?subject=${subject}&body=${body}`;
+                window.open(mailtoLink, '_blank');
+                
+                showSuccess();
+            }
+            
+            function showSuccess() {
                 successMessage.style.display = 'block';
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Send Message';
                 
                 // Reset form
-                this.reset();
-                
-                // Log form data (in a real app, this would be sent to your server)
-                console.log('Form submitted:', {
-                    name: name,
-                    email: email,
-                    phone: formData.get('phone'),
-                    service: formData.get('service'),
-                    message: message,
-                    timestamp: new Date().toISOString()
-                });
+                document.getElementById('contactForm').reset();
                 
                 // Scroll to success message
                 successMessage.scrollIntoView({ behavior: 'smooth' });
-            }, 1500);
+            }
         });
 
         // Add some interactive animations
