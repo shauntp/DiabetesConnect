@@ -181,8 +181,10 @@
 
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 32px;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .service-card {
@@ -494,12 +496,6 @@
             <p class="section-subtitle">Comprehensive diabetes support designed to help you manage your condition with confidence and ease.</p>
             <div class="services-grid">
                 <div class="service-card">
-                    <div class="service-icon">📊</div>
-                    <h3>Blood Sugar Monitoring</h3>
-                    <p>Track and analyze your blood glucose levels with our advanced monitoring tools and personalized insights.</p>
-                    <button class="cta-button" onclick="scrollToSection('contact')">Learn More</button>
-                </div>
-                <div class="service-card">
                     <div class="service-icon">🍎</div>
                     <h3>Nutrition Planning</h3>
                     <p>Customized meal plans and nutritional guidance designed specifically for diabetes management.</p>
@@ -521,12 +517,6 @@
                     <div class="service-icon">📱</div>
                     <h3>24/7 Support</h3>
                     <p>Round-the-clock access to diabetes educators and support specialists when you need them most.</p>
-                    <button class="cta-button" onclick="scrollToSection('contact')">Learn More</button>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">📈</div>
-                    <h3>Progress Tracking</h3>
-                    <p>Comprehensive reporting and analytics to help you and your doctor track your diabetes management progress.</p>
                     <button class="cta-button" onclick="scrollToSection('contact')">Learn More</button>
                 </div>
             </div>
@@ -613,12 +603,10 @@
                     <label for="service">Service Interest</label>
                     <select id="service" name="service">
                         <option value="">Select a service...</option>
-                        <option value="blood-sugar-monitoring">Blood Sugar Monitoring</option>
                         <option value="nutrition-planning">Nutrition Planning</option>
                         <option value="medication-management">Medication Management</option>
                         <option value="exercise-coaching">Exercise Coaching</option>
                         <option value="24-7-support">24/7 Support</option>
-                        <option value="progress-tracking">Progress Tracking</option>
                         <option value="general-inquiry">General Inquiry</option>
                     </select>
                 </div>
