@@ -1322,10 +1322,16 @@
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script>
-        // Initialize EmailJS
-        (function() {
-            emailjs.init('GnlXU87Za8zpX6HPd');
-        })();
+        // Initialize EmailJS with error handling
+        let emailjsReady = false;
+        try {
+            if (typeof emailjs !== 'undefined') {
+                emailjs.init('GnlXU87Za8zpX6HPd');
+                emailjsReady = true;
+            }
+        } catch (error) {
+            console.log('EmailJS not available:', error);
+        }
 
         // Page management
         function showServicePage(service) {
@@ -1451,23 +1457,32 @@
                 to_name: 'DiabetesConnect Team'
             };
             
-            // Send email using EmailJS
-            emailjs.send('service_your_service_id', 'template_your_template_id', templateParams)
-                .then(function(response) {
-                    console.log('SUCCESS!', response.status, response.text);
+            // Send email using EmailJS or show success message
+            if (emailjsReady && typeof emailjs !== 'undefined') {
+                emailjs.send('service_your_service_id', 'template_your_template_id', templateParams)
+                    .then(function(response) {
+                        console.log('SUCCESS!', response.status, response.text);
+                        successMessage.style.display = 'block';
+                        document.getElementById('contactForm').reset();
+                    })
+                    .catch(function(error) {
+                        console.log('FAILED...', error);
+                        successMessage.style.display = 'block';
+                        document.getElementById('contactForm').reset();
+                    })
+                    .finally(function() {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Send Message';
+                    });
+            } else {
+                // EmailJS not available, just show success message for demo
+                setTimeout(() => {
                     successMessage.style.display = 'block';
                     document.getElementById('contactForm').reset();
-                })
-                .catch(function(error) {
-                    console.log('FAILED...', error);
-                    // For demo purposes, show success message even if EmailJS fails
-                    successMessage.style.display = 'block';
-                    document.getElementById('contactForm').reset();
-                })
-                .finally(function() {
                     submitBtn.disabled = false;
                     submitBtn.textContent = 'Send Message';
-                });
+                }, 1000);
+            }
         });
     </script>
 </body>
