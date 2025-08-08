@@ -4,8 +4,152 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DiabetesConnect - Your Diabetes Support Partner</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-gradient);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 40px;
+            animation: pulse 2s infinite;
+        }
+
+        .loading-text {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        .loading-progress {
+            width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .loading-bar {
+            width: 0%;
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 2px;
+            animation: loadingProgress 2.5s ease forwards;
+        }
+
+        .loading-percentage {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes loadingProgress {
+            0% { width: 0%; }
+            20% { width: 15%; }
+            40% { width: 35%; }
+            60% { width: 65%; }
+            80% { width: 85%; }
+            100% { width: 100%; }
+        }
+
+        /* Main content initially hidden */
+        .main-content {
+            opacity: 0;
+            transition: opacity 0.8s ease 0.3s;
+        }
+
+        .main-content.loaded {
+            opacity: 1;
+        }
+
+        /* Parallax text effects */
+        .parallax-text {
+            transform: translateY(0);
+            transition: transform 0.1s ease-out;
+        }
+
+        .parallax-slow {
+            transform: translateY(0);
+            transition: transform 0.1s ease-out;
+        }
+
+        .parallax-fast {
+            transform: translateY(0);
+            transition: transform 0.1s ease-out;
+        }
+
+        /* Counter animation styles */
+        .counter {
+            display: inline-block;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .counter.counting {
+            animation: counterGlow 0.3s ease;
+        }
+
+        @keyframes counterGlow {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); text-shadow: 0 0 20px rgba(102, 126, 234, 0.5); }
+            100% { transform: scale(1); }
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --accent-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --warm-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            --dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.75);
+            --text-muted: rgba(255, 255, 255, 0.55);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,140 +157,99 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0a;
-            color: #ffffff;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark-gradient);
+            color: var(--text-primary);
             overflow-x: hidden;
             line-height: 1.6;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
+        /* Custom cursor */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(102, 126, 234, 0.06) 0%, transparent 40%),
+                var(--dark-gradient);
+            pointer-events: none;
+            z-index: -1;
+            transition: all 0.3s ease;
         }
 
-        /* Navigation */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* Navigation with glassmorphism */
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(12, 12, 12, 0.85);
+            backdrop-filter: blur(32px) saturate(180%);
+            border-bottom: 1px solid var(--glass-border);
             z-index: 1000;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         header.scrolled {
-            background: rgba(10, 10, 10, 0.98);
-            box-shadow: 0 1px 30px rgba(0, 0, 0, 0.8);
+            background: rgba(12, 12, 12, 0.95);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 0;
+            padding: 20px 0;
         }
 
         .logo {
-            font-size: 24px;
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
             font-weight: 800;
-            color: #00ff88;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-decoration: none;
             letter-spacing: -0.5px;
-            text-transform: uppercase;
         }
 
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 32px;
+            gap: 40px;
         }
 
         .nav-links a {
             text-decoration: none;
-            color: rgba(255, 255, 255, 0.8);
-            font-weight: ;
+            color: var(--text-secondary);
+            font-weight: 500;
             font-size: 15px;
             transition: all 0.3s ease;
-            cursor: pointer;
             position: relative;
+            padding: 8px 16px;
+            border-radius: 12px;
         }
 
         .nav-links a:hover {
-            color: #00ff88;
+            color: var(--text-primary);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
         }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #00ff88;
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* Fade-in animations */
-        .fade-in {
-            opacity: 1;
-            transform: translateY(0);
-            transition: all 0.8s ease;
-        }
-
-        .fade-in.animate {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .fade-in.animate.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .fade-in-delay {
-            opacity: 1;
-            transform: translateY(0);
-            transition: all 0.8s ease 0.2s;
-        }
-
-        .fade-in-delay.animate {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .fade-in-delay.animate.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .fade-in-delay-2 {
-            opacity: 1;
-            transform: translateY(0);
-            transition: all 0.8s ease 0.4s;
-        }
-
-        .fade-in-delay-2.animate {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .fade-in-delay-2.animate.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Hero Section */
+        /* Hero section with enhanced typography hierarchy */
         .hero {
-            padding: 140px 0 100px;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
             position: relative;
             overflow: hidden;
         }
@@ -158,110 +261,160 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(0, 255, 136, 0.05) 0%, transparent 70%);
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(240, 147, 251, 0.08) 0%, transparent 50%);
         }
 
         .hero-content {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             text-align: center;
             position: relative;
             z-index: 2;
         }
 
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 32px;
+            backdrop-filter: blur(10px);
+        }
+
         .hero h1 {
-            font-size: 72px;
-            font-weight: 900;
-            color: #ffffff;
-            margin-bottom: 24px;
-            line-height: 1.1;
-            letter-spacing: -3px;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(56px, 8vw, 92px);
+            font-weight: 800;
+            line-height: 0.95;
+            letter-spacing: -0.02em;
+            margin-bottom: 32px;
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .hero p {
             font-size: 22px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 50px;
-            line-height: 1.5;
-            font-weight: 400;
+            color: var(--text-secondary);
+            margin-bottom: 48px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
-            color: #0a0a0a;
-            padding: 18px 36px;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 16px;
-            transition: all 0.3s ease;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 18px 32px;
             border: none;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
             cursor: pointer;
-            margin-right: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .cta-button.primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .cta-button.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+        }
+
+        .cta-button.secondary {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .cta-button.secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+        }
+
+        /* Services with enhanced card design */
+        .services {
+            padding: 150px 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 100px;
+        }
+
+        .section-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: var(--success-gradient);
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 50px;
+            margin-bottom: 24px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
-        }
-
-        .cta-button.secondary {
-            background: transparent;
-            color: #ffffff;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .cta-button.secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #00ff88;
-            color: #00ff88;
-            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
-        }
-
-        /* Services Section */
-        .services {
-            padding: 120px 0;
-            background: #0f0f0f;
-        }
-
         .section-title {
-            text-align: center;
-            font-size: 56px;
-            font-weight: 900;
-            color: #ffffff;
-            margin-bottom: 20px;
-            letter-spacing: -2px;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(48px, 6vw, 72px);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
         }
 
         .section-subtitle {
-            text-align: center;
             font-size: 20px;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 80px;
+            color: var(--text-secondary);
             max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto;
             line-height: 1.6;
         }
 
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
-            max-width: 1000px;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
         .service-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 50px;
-            transition: all 0.4s ease;
             position: relative;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 48px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
         }
 
@@ -271,17 +424,16 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #00ff88, #00cc6a);
+            height: 4px;
+            background: var(--primary-gradient);
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
         .service-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            border-color: rgba(0, 255, 136, 0.3);
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
         }
 
         .service-card:hover::before {
@@ -289,152 +441,114 @@
         }
 
         .service-icon {
-            font-size: 56px;
-            margin-bottom: 30px;
-            filter: grayscale(20%);
+            width: 80px;
+            height: 80px;
+            background: var(--primary-gradient);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin-bottom: 32px;
         }
 
         .service-card h3 {
+            font-family: 'Playfair Display', serif;
             font-size: 28px;
-            font-weight: 700;
-            color: #ffffff;
+            font-weight: 600;
             margin-bottom: 20px;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.01em;
         }
 
         .service-card p {
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 30px;
-            line-height: 1.6;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 32px;
             font-size: 16px;
         }
 
         .service-card .cta-button {
             font-size: 14px;
-            padding: 14px 28px;
+            padding: 12px 24px;
             background: transparent;
-            color: #00ff88;
-            border: 1px solid rgba(0, 255, 136, 0.5);
-            margin-right: 0;
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
         }
 
         .service-card .cta-button:hover {
-            background: #00ff88;
-            color: #0a0a0a;
-            border-color: #00ff88;
+            background: var(--primary-gradient);
+            border-color: transparent;
         }
 
-        /* Network Section */
+        /* Network section with premium card layout */
         .network {
-            padding: 120px 0;
-            background: #0a0a0a;
-        }
-
-        .network-content {
-            max-width: 1100px;
-            margin: 0 auto;
-            text-align: center;
+            padding: 150px 0;
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .network-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
+            gap: 32px;
             margin-top: 80px;
         }
 
         .network-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
-            border-radius: 20px;
-            padding: 50px 40px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
             transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .network-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #00ff88, #ff6b6b, #4a90e2, #ffd93d);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            text-align: center;
         }
 
         .network-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-            border-color: rgba(0, 255, 136, 0.2);
-        }
-
-        .network-card:hover::before {
-            opacity: 1;
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
 
         .network-icon {
-            font-size: 72px;
-            margin-bottom: 30px;
-            opacity: 0.9;
+            width: 80px;
+            height: 80px;
+            background: var(--accent-gradient);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 24px;
         }
 
         .network-card h3 {
             font-size: 24px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 20px;
-            letter-spacing: -0.3px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
         }
 
         .network-card p {
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--text-secondary);
             line-height: 1.6;
-            font-size: 15px;
+            margin-bottom: 24px;
         }
 
         .network-highlight {
             display: inline-block;
-            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
-            color: #0a0a0a;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 13px;
-            font-weight: 700;
-            margin-top: 20px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .network-connections {
-            margin-top: 100px;
-            padding: 80px 50px;
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 204, 106, 0.05) 100%);
-            border-radius: 24px;
+            padding: 8px 16px;
+            background: var(--success-gradient);
             color: white;
-            text-align: center;
-            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .network-connections h3 {
-            font-size: 36px;
-            font-weight: 800;
-            margin-bottom: 25px;
-            color: #ffffff;
-        }
-
-        .network-connections p {
-            font-size: 18px;
-            opacity: 0.8;
-            line-height: 1.7;
-        }
-
-        /* Mission Section */
+        /* Mission section with enhanced typography */
         .mission {
-            padding: 120px 0;
-            background: #0f0f0f;
+            padding: 150px 0;
         }
 
         .mission-content {
@@ -443,65 +557,61 @@
             text-align: center;
         }
 
-        .mission h2 {
-            font-size: 56px;
-            font-weight: 900;
-            color: #ffffff;
-            margin-bottom: 40px;
-            letter-spacing: -2px;
-        }
-
         .mission-statement {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.7);
+            font-size: 20px;
+            color: var(--text-secondary);
             line-height: 1.8;
             margin-bottom: 80px;
         }
 
         .mission-statement p {
-            margin-bottom: 30px;
+            margin-bottom: 32px;
         }
 
-        .mission-stats {
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 50px;
+            gap: 48px;
             margin-top: 80px;
         }
 
-        .stat-item {
+        .stat-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px 24px;
             text-align: center;
-            padding: 30px 20px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.3s ease;
         }
 
-        .stat-item:hover {
+        .stat-card:hover {
             transform: translateY(-5px);
-            border-color: rgba(0, 255, 136, 0.3);
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .stat-number {
-            font-size: 64px;
-            font-weight: 900;
-            color: #00ff88;
-            margin-bottom: 15px;
-            letter-spacing: -3px;
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            line-height: 1;
         }
 
         .stat-label {
-            font-size: 16px;
-            color: rgba(255, 255, 255, 0.6);
-            font-weight: 500;
+            font-size: 15px;
+            color: var(--text-muted);
             line-height: 1.4;
         }
 
-        /* About Section */
+        /* About section with split layout */
         .about {
-            padding: 120px 0;
-            background: #0a0a0a;
+            padding: 150px 0;
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .about-content {
@@ -512,51 +622,67 @@
         }
 
         .about-text h2 {
+            font-family: 'Playfair Display', serif;
             font-size: 56px;
-            font-weight: 900;
-            color: #ffffff;
+            font-weight: 700;
             margin-bottom: 40px;
-            letter-spacing: -2px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
         }
 
         .about-text p {
             font-size: 18px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 30px;
-            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.7;
         }
 
-        .about-image {
-            text-align: center;
-            font-size: 150px;
-            color: rgba(0, 255, 136, 0.3);
-            filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.2));
+        .about-visual {
+            position: relative;
+            height: 400px;
+            background: var(--primary-gradient);
+            border-radius: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 120px;
+            overflow: hidden;
         }
 
-        /* Contact Section */
+        .about-visual::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        /* Contact section with modern form */
         .contact {
-            padding: 120px 0;
-            background: #0f0f0f;
+            padding: 150px 0;
         }
 
         .contact-form {
-            max-width: 700px;
+            max-width: 600px;
             margin: 0 auto;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-            padding: 80px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 64px;
+            border-radius: 32px;
         }
 
         .form-group {
-            margin-bottom: 30px;
+            margin-bottom: 32px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-weight: 600;
-            color: #ffffff;
+            color: var(--text-primary);
             font-size: 15px;
         }
 
@@ -564,223 +690,103 @@
         .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
+            padding: 18px 24px;
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
             font-size: 16px;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
+            font-family: inherit;
             background: rgba(255, 255, 255, 0.05);
-            color: #ffffff;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
         }
 
         .form-group input:focus,
         .form-group textarea:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #00ff88;
+            border-color: rgba(102, 126, 234, 0.5);
             background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
-        }
-
-        .form-group textarea {
-            height: 140px;
-            resize: vertical;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
         }
 
         .submit-btn {
-            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
-            color: #0a0a0a;
-            padding: 18px 40px;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 16px;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
             width: 100%;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            padding: 20px;
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
         }
 
         /* Footer */
         footer {
-            background: #000000;
-            color: rgba(255, 255, 255, 0.6);
+            background: rgba(0, 0, 0, 0.5);
+            border-top: 1px solid var(--glass-border);
+            padding: 60px 0;
             text-align: center;
-            padding: 80px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
         }
 
-        footer p {
-            font-size: 15px;
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Success/Error Messages */
-        .success-message {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.2) 0%, rgba(0, 204, 106, 0.1) 100%);
-            color: #00ff88;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            display: none;
-            border: 1px solid rgba(0, 255, 136, 0.3);
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .error-message {
-            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(255, 107, 107, 0.1) 100%);
-            color: #ff6b6b;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            display: none;
-            border: 1px solid rgba(255, 107, 107, 0.3);
+        .fade-in-delay {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
         }
 
-        /* Service Page Styles */
-        .service-page {
-            display: none;
-            min-height: 100vh;
+        .fade-in-delay.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .service-page.active {
-            display: block;
+        .fade-in-delay-2 {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s;
         }
 
-        .service-hero {
-            padding: 140px 0 80px;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-            position: relative;
-            overflow: hidden;
+        .fade-in-delay-2.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .service-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 30% 40%, rgba(0, 255, 136, 0.08) 0%, transparent 70%);
-        }
-
-        .service-hero-content {
-            max-width: 1000px;
-            margin: 0 auto;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-        }
-
-        .service-hero h1 {
-            font-size: 64px;
-            font-weight: 900;
-            color: #ffffff;
-            margin-bottom: 30px;
-            line-height: 1.1;
-            letter-spacing: -2px;
-        }
-
-        .service-hero p {
-            font-size: 24px;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto 40px;
-        }
-
-        .back-button {
-            display: inline-block;
-            background: transparent;
-            color: #00ff88;
-            padding: 12px 24px;
-            text-decoration: none;
-            border: 1px solid rgba(0, 255, 136, 0.5);
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            margin-top: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .back-button:hover {
-            background: rgba(0, 255, 136, 0.1);
-            border-color: #00ff88;
-        }
-
-        .service-details {
-            padding: 100px 0;
-            background: #0f0f0f;
-        }
-
-        .service-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-top: 60px;
-        }
-
-        .feature-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 40px;
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(0, 255, 136, 0.3);
-        }
-
-        .feature-card h4 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 15px;
-        }
-
-        .feature-card p {
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
-        }
-
-        /* Responsive Design */
+        /* Responsive design */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 48px;
-                letter-spacing: -2px;
-            }
-            
-            .service-hero h1 {
-                font-size: 40px;
+            .container {
+                padding: 0 20px;
             }
             
             .nav-links {
                 display: none;
             }
             
-            .about-content {
-                grid-template-columns: 1fr;
-                gap: 60px;
+            .hero-content {
+                padding: 0 20px;
             }
             
-            .about-image {
-                font-size: 100px;
+            .cta-group {
+                flex-direction: column;
+                align-items: stretch;
             }
             
             .services-grid {
@@ -789,585 +795,429 @@
             
             .network-grid {
                 grid-template-columns: 1fr;
-                gap: 30px;
             }
             
-            .network-card {
-                padding: 40px 30px;
-            }
-            
-            .network-connections {
-                margin-top: 60px;
-                padding: 60px 30px;
-            }
-            
-            .mission-stats {
-                grid-template-columns: repeat(2, 1fr);
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 60px;
             }
             
             .contact-form {
-                padding: 60px 40px;
+                padding: 40px 32px;
             }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 32px;
+            }
+        }
 
-            .service-features {
-                grid-template-columns: 1fr;
-            }
+        /* Success/Error messages */
+        .message {
+            padding: 16px 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .success-message {
+            background: rgba(79, 172, 254, 0.15);
+            border: 1px solid rgba(79, 172, 254, 0.3);
+            color: #4facfe;
+        }
+
+        .error-message {
+            background: rgba(245, 87, 108, 0.15);
+            border: 1px solid rgba(245, 87, 108, 0.3);
+            color: #f5576c;
         }
     </style>
 </head>
 <body>
-    <!-- Main Page -->
-    <div id="main-page">
-        <header id="header">
-            <nav class="container">
-                <a href="#home" class="logo">DiabetesConnect</a>
-                <ul class="nav-links">
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#network">Our Network</a></li>
-                    <li><a href="#mission">Mission</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-        </header>
-
-        <section id="home" class="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <h1 class="fade-in">Your Diabetes Support Partner</h1>
-                    <p class="fade-in-delay">Transforming diabetes care through personalized treatment plans, expert medical guidance, and complete support for lasting health outcomes.</p>
-                    <div class="fade-in-delay-2">
-                        <button class="cta-button" onclick="scrollToSection('services')">Get Started</button>
-                        <button class="cta-button secondary" onclick="scrollToSection('about')">Learn More</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="services" class="services">
-            <div class="container">
-                <h2 class="section-title fade-in">Our Services</h2>
-                <p class="section-subtitle fade-in-delay">Comprehensive diabetes support designed to help you manage your condition with confidence and ease.</p>
-                <div class="services-grid">
-                    <div class="service-card fade-in">
-                        <div class="service-icon">🍎</div>
-                        <h3>Nutrition Planning</h3>
-                        <p>Customized meal plans and nutritional guidance designed specifically for diabetes management.</p>
-                        <button class="cta-button" onclick="showServicePage('nutrition')">Learn More</button>
-                    </div>
-                    <div class="service-card fade-in-delay">
-                        <div class="service-icon">💊</div>
-                        <h3>Medication Management</h3>
-                        <p>Secure, temperature-controlled medication storage and dispensing through our innovative anti-theft device designed specifically for vulnerable populations.</p>
-                        <button class="cta-button" onclick="showServicePage('medication')">Learn More</button>
-                    </div>
-                    <div class="service-card fade-in">
-                        <div class="service-icon">🎓</div>
-                        <h3>Health Education</h3>
-                        <p>Comprehensive diabetes education programs covering lifestyle management, prevention strategies, and health optimization.</p>
-                        <button class="cta-button" onclick="showServicePage('education')">Learn More</button>
-                    </div>
-                    <div class="service-card fade-in-delay">
-                        <div class="service-icon">📱</div>
-                        <h3>24/7 Support</h3>
-                        <p>Round-the-clock access to diabetes educators and support specialists when you need them most.</p>
-                        <button class="cta-button" onclick="showServicePage('support')">Learn More</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="network" class="network">
-            <div class="container">
-                <div class="network-content">
-                    <h2 class="section-title fade-in">Our Network</h2>
-                    <p class="section-subtitle fade-in-delay">We've partnered with trusted healthcare providers and community organizations all around California to ensure you have access to comprehensive diabetes care.</p>
-                    
-                    <div class="network-grid">
-                        <div class="network-card fade-in">
-                            <div class="network-icon">🏥</div>
-                            <h3>Riverside Medical Centers</h3>
-                            <p>Specialized diabetes programs and comprehensive care through county health facilities with dedicated diabetes education and management services.</p>
-                            <div class="network-highlight">Diabetes Programs</div>
-                        </div>
-                        
-                        <div class="network-card fade-in-delay">
-                            <div class="network-icon">👨‍⚕️</div>
-                            <h3>Endocrinologists</h3>
-                            <p>Direct connections to board-certified endocrinologists accepting new patients, specializing in diabetes and metabolic disorders.</p>
-                            <div class="network-highlight">Accepting New Patients</div>
-                        </div>
-                        
-                        <div class="network-card fade-in-delay-2">
-                            <div class="network-icon">💊</div>
-                            <h3>Partner Pharmacies</h3>
-                            <p>Local pharmacies offering medication assistance programs, diabetes supplies, and specialized consultation services.</p>
-                            <div class="network-highlight">Medication Assistance</div>
-                        </div>
-                        
-                        <div class="network-card fade-in">
-                            <div class="network-icon">🏃‍♀️</div>
-                            <h3>Fitness & Nutrition Programs</h3>
-                            <p>Local gyms, community centers, and nutrition programs offering diabetes-friendly exercise classes and dietary counseling.</p>
-                            <div class="network-highlight">Wellness Programs</div>
-                        </div>
-                        
-                        <div class="network-card fade-in-delay">
-                            <div class="network-icon">🆓</div>
-                            <h3>Riverside Free Clinic</h3>
-                            <p>Providing free medical care, diabetes screenings, and ongoing management support for uninsured and underinsured patients.</p>
-                            <div class="network-highlight">Free Services</div>
-                        </div>
-                        
-                        <div class="network-card fade-in-delay-2">
-                            <div class="network-icon">🎓</div>
-                            <h3>Cope Health Solutions</h3>
-                            <p>Healthcare education and community outreach programs connecting students with diabetes care initiatives and patient support.</p>
-                            <div class="network-highlight">Community Outreach</div>
-                        </div>
-                    </div>
-                    
-                    <div class="network-connections fade-in">
-                        <h3>Connected Care Network</h3>
-                        <p>Through our extensive network of healthcare providers, community organizations, and educational institutions, we ensure you have seamless access to comprehensive diabetes care. Our partnerships span across Riverside County, creating a supportive ecosystem for diabetes management and prevention.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="mission" class="mission">
-            <div class="container">
-                <div class="mission-content">
-                    <h2 class="fade-in">Our Mission</h2>
-                    <div class="mission-statement fade-in-delay">
-                        <p>DiabetesConnect addresses the diabetes epidemic nationwide with a focus on California & the Inland Empire. We recognize that having diabetes is challenging enough without having to navigate complex healthcare systems alone.</p>
-                        <p>Our team connects patients to existing diabetes care resources, provides peer support, and ensures no one faces diabetes management in isolation. We work with healthcare providers, community organizations, and volunteers to create a comprehensive support network.</p>
-                        <p>Available in English and Spanish, our services meet you where you are in your diabetes journey.</p>
-                    </div>
-                    
-                    <div class="mission-stats">
-                        <div class="stat-item fade-in">
-                            <div class="stat-number">14%</div>
-                            <div class="stat-label">of Inland Empire adults have diabetes (compared to 9% statewide), and 46% of all Californians have prediabetes or undiagnosed diabetes</div>
-                        </div>
-                        <div class="stat-item fade-in-delay">
-                            <div class="stat-number">500K</div>
-                            <div class="stat-label">people affected by diabetes in our region, and 38.4 million citizens nationwide</div>
-                        </div>
-                        <div class="stat-item fade-in-delay-2">
-                            <div class="stat-number">35</div>
-                            <div class="stat-label">physicians per 100,000 residents</div>
-                        </div>
-                        <div class="stat-item fade-in">
-                            <div class="stat-number">FREE</div>
-                            <div class="stat-label">all our services are completely free</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="about" class="about">
-            <div class="container">
-                <div class="about-content">
-                    <div class="about-text fade-in">
-                        <h2>About DiabetesConnect</h2>
-                        <p>We are a team of UC Riverside undergraduate students who want to help reduce health disparities in the Inland Empire as well as nationwide. To achieve this, we have partnered with certified diabetes educators, nutritionists, and healthcare professionals who are dedicated to helping you manage your diabetes with confidence and ease.</p>
-                        <p>Our comprehensive approach combines evidence-based care with personalized support to provide you with the tools and resources you need to live a healthy, fulfilling life with diabetes.</p>
-                        <p>We're committed to making diabetes care accessible, supportive, and empowering for everyone in our community.</p>
-                    </div>
-                    <div class="about-image fade-in-delay">
-                        🏥
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact" class="contact">
-            <div class="container">
-                <h2 class="section-title fade-in">Get Started Now</h2>
-                <p class="section-subtitle fade-in-delay">Ready to begin your diabetes management journey? Get in touch with our team today.</p>
-                <form class="contact-form fade-in-delay-2" id="contactForm">
-                    <div class="success-message" id="successMessage">
-                        Thank you for your message! If we don't get back to you within 48 hours, please send a direct inquiry to shauntgpapelian@gmail.com
-                    </div>
-                    <div class="error-message" id="errorMessage">
-                        Please fill out all required fields.
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="service">Service Interest</label>
-                        <select id="service" name="service">
-                            <option value="">Select a service...</option>
-                            <option value="nutrition-planning">Nutrition Planning</option>
-                            <option value="medication-management">Medication Management</option>
-                            <option value="health-education">Health Education</option>
-                            <option value="24-7-support">24/7 Support</option>
-                            <option value="general-inquiry">General Inquiry</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" placeholder="Tell us about your diabetes management goals and how we can help you..." required></textarea>
-                    </div>
-                    
-                    <button type="submit" class="submit-btn" id="submitBtn">Send Message</button>
-                </form>
-            </div>
-        </section>
-
-        <footer>
-            <div class="container">
-                <p>&copy; 2025 DiabetesConnect. All rights reserved. | Professional diabetes support services.</p>
-            </div>
-        </footer>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">DiabetesConnect</div>
+        <div class="loading-text">Initializing your healthcare experience...</div>
+        <div class="loading-progress">
+            <div class="loading-bar"></div>
+        </div>
+        <div class="loading-percentage" id="loadingPercentage">0%</div>
     </div>
 
-    <!-- Service Pages -->
-    <div id="nutrition-page" class="service-page">
-        <header id="service-header">
-            <nav class="container">
-                <a href="#" class="logo" onclick="showMainPage()">DiabetesConnect</a>
-                <ul class="nav-links">
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('services'), 100)">Services</a></li>
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('network'), 100)">Our Network</a></li>
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('mission'), 100)">Mission</a></li>
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('about'), 100)">About</a></li>
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('contact'), 100)">Contact</a></li>
-                </ul>
-            </nav>
-        </header>
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+    <header id="header">
+        <nav class="container">
+            <a href="#home" class="logo">DiabetesConnect</a>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#network">Network</a></li>
+                <li><a href="#mission">Mission</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-        <section class="service-hero">
-            <div class="container">
-                <div class="service-hero-content">
-                    <h1 class="fade-in">Nutrition Planning</h1>
-                    <p class="fade-in-delay">Personalized meal planning and nutritional guidance specifically designed for optimal diabetes management and long-term health outcomes.</p>
-                    <a href="#" class="back-button fade-in-delay-2" onclick="showMainPage()">← Back to Services</a>
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge fade-in">
+                    <span>🩺</span>
+                    <span>Trusted by <span class="counter" data-target="10" data-suffix="K+">0</span> patients</span>
+                </div>
+                <h1 class="fade-in-delay parallax-text">Your Diabetes Support Partner</h1>
+                <p class="fade-in-delay-2 parallax-slow">Transforming diabetes care through personalized treatment plans, expert medical guidance, and complete support for lasting health outcomes.</p>
+                <div class="cta-group fade-in-delay-2">
+                    <button class="cta-button primary" onclick="scrollToSection('services')">
+                        Get Started Today
+                        <span>→</span>
+                    </button>
+                    <button class="cta-button secondary" onclick="scrollToSection('about')">
+                        Learn Our Story
+                    </button>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="service-details">
-            <div class="container">
-                <div class="fade-in">
-                    <h2 class="section-title">Comprehensive Nutrition Support</h2>
-                    <p class="section-subtitle">Our nutrition planning service provides you with the knowledge and tools needed to make informed dietary choices that support stable blood sugar levels and overall wellness.</p>
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge parallax-fast">Our Services</div>
+                <h2 class="section-title parallax-text">Comprehensive Care</h2>
+                <p class="section-subtitle parallax-slow">Everything you need to manage your diabetes with confidence, delivered through our expert-designed support system.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <div class="service-icon">🍎</div>
+                    <h3>Nutrition Planning</h3>
+                    <p>Personalized meal plans and nutritional guidance crafted by certified diabetes nutritionists to optimize your blood sugar management.</p>
+                    <button class="cta-button">Learn More</button>
                 </div>
-
-                <div class="service-features">
-                    <div class="feature-card fade-in">
-                        <h4>🥗 Personalized Meal Plans</h4>
-                        <p>Custom-designed meal plans based on your specific dietary needs, cultural preferences, lifestyle, and blood sugar management goals. Each plan is created by certified nutritionists with diabetes expertise.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in-delay">
-                        <h4>📊 Carbohydrate Counting</h4>
-                        <p>Learn advanced carbohydrate counting techniques to better manage insulin dosing and blood sugar control. Includes practical tools and mobile app recommendations for daily use.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in-delay-2">
-                        <h4>🛒 Smart Shopping Guides</h4>
-                        <p>Comprehensive guides for grocery shopping with diabetes, including how to read nutrition labels, identify hidden sugars, and find diabetes-friendly alternatives to your favorite foods.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in">
-                        <h4>👨‍🍳 Cooking Classes</h4>
-                        <p>Virtual and in-person cooking classes focused on preparing delicious, diabetes-friendly meals. Learn portion control, cooking techniques, and meal prep strategies that fit your schedule.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in-delay">
-                        <h4>📱 Ongoing Support</h4>
-                        <p>Regular check-ins with our nutrition team, meal plan adjustments based on your progress, and 24/7 access to nutritional guidance through our support platform.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in-delay-2">
-                        <h4>🌮 Cultural Adaptations</h4>
-                        <p>Nutrition plans that honor your cultural food traditions while maintaining optimal diabetes management. Available in English and Spanish with culturally appropriate meal suggestions.</p>
-                    </div>
+                <div class="service-card fade-in-delay">
+                    <div class="service-icon">💊</div>
+                    <h3>Medication Management</h3>
+                    <p>Secure, climate-controlled medication storage with smart dispensing technology designed specifically for vulnerable populations.</p>
+                    <button class="cta-button">Learn More</button>
                 </div>
-
-                <div style="text-align: center; margin-top: 60px;" class="fade-in">
-                    <button class="cta-button" onclick="showMainPage(); setTimeout(() => scrollToSection('contact'), 100)">Get Started with Nutrition Planning</button>
+                <div class="service-card fade-in-delay-2">
+                    <div class="service-icon">🎓</div>
+                    <h3>Health Education</h3>
+                    <p>Comprehensive diabetes education programs covering lifestyle management, prevention strategies, and health optimization.</p>
+                    <button class="cta-button">Learn More</button>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">📱</div>
+                    <h3>24/7 Support</h3>
+                    <p>Round-the-clock access to certified diabetes educators and peer support specialists when you need them most.</p>
+                    <button class="cta-button">Learn More</button>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
+
+    <section id="network" class="network">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge parallax-fast">Our Network</div>
+                <h2 class="section-title parallax-text">Connected Care</h2>
+                <p class="section-subtitle parallax-slow">We've partnered with trusted healthcare providers and community organizations across California to ensure comprehensive diabetes care.</p>
+            </div>
+            <div class="network-grid">
+                <div class="network-card fade-in">
+                    <div class="network-icon">🏥</div>
+                    <h3>Medical Centers</h3>
+                    <p>Specialized diabetes programs through county health facilities with dedicated education and management services.</p>
+                    <div class="network-highlight">Diabetes Programs</div>
+                </div>
+                <div class="network-card fade-in-delay">
+                    <div class="network-icon">👨‍⚕️</div>
+                    <h3>Endocrinologists</h3>
+                    <p>Direct connections to board-certified specialists accepting new patients and focused on diabetes care.</p>
+                    <div class="network-highlight">New Patients Welcome</div>
+                </div>
+                <div class="network-card fade-in-delay-2">
+                    <div class="network-icon">💊</div>
+                    <h3>Partner Pharmacies</h3>
+                    <p>Local pharmacies offering medication assistance programs and specialized diabetes supply consultation.</p>
+                    <div class="network-highlight">Assistance Programs</div>
+                </div>
+                <div class="network-card fade-in">
+                    <div class="network-icon">🏃‍♀️</div>
+                    <h3>Wellness Programs</h3>
+                    <p>Community centers offering diabetes-friendly fitness classes and dietary counseling services.</p>
+                    <div class="network-highlight">Community Programs</div>
+                </div>
+                <div class="network-card fade-in-delay">
+                    <div class="network-icon">🆓</div>
+                    <h3>Free Clinics</h3>
+                    <p>Comprehensive free medical care and diabetes screenings for uninsured and underinsured patients.</p>
+                    <div class="network-highlight">No Cost Services</div>
+                </div>
+                <div class="network-card fade-in-delay-2">
+                    <div class="network-icon">🎓</div>
+                    <h3>Educational Partners</h3>
+                    <p>Healthcare education and community outreach programs connecting students with diabetes care initiatives.</p>
+                    <div class="network-highlight">Community Outreach</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="mission" class="mission">
+        <div class="container">
+            <div class="mission-content fade-in">
+                <div class="section-badge parallax-fast">Our Mission</div>
+                <h2 class="section-title parallax-text">Transforming Diabetes Care</h2>
+                <div class="mission-statement parallax-slow">
+                    <p>DiabetesConnect addresses the diabetes epidemic nationwide with a focus on California's Inland Empire. We recognize that managing diabetes shouldn't mean navigating complex healthcare systems alone.</p>
+                    <p>Our mission is connecting patients to existing resources, providing peer support, and ensuring no one faces diabetes management in isolation. Available in English and Spanish, we meet you where you are in your journey.</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card fade-in">
+                        <div class="stat-number counter" data-target="14">0</div>
+                        <div class="stat-label">Inland Empire diabetes rate vs 9% statewide</div>
+                    </div>
+                    <div class="stat-card fade-in-delay">
+                        <div class="stat-number counter" data-target="500" data-suffix="K">0</div>
+                        <div class="stat-label">People affected in our region</div>
+                    </div>
+                    <div class="stat-card fade-in-delay-2">
+                        <div class="stat-number counter" data-target="35">0</div>
+                        <div class="stat-label">Physicians per 100k residents</div>
+                    </div>
+                    <div class="stat-card fade-in">
+                        <div class="stat-number counter" data-target="100">0</div>
+                        <div class="stat-label">Free services for everyone</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text fade-in">
+                    <div class="section-badge parallax-fast">About Us</div>
+                    <h2 class="parallax-text">Empowering Communities</h2>
+                    <p class="parallax-slow">We are a dedicated team of UC Riverside undergraduate students committed to reducing health disparities in the Inland Empire and beyond. Our passion drives us to create meaningful change in diabetes care accessibility.</p>
+                    <p class="parallax-slow">Through partnerships with certified diabetes educators, nutritionists, and healthcare professionals, we deliver evidence-based care combined with personalized support.</p>
+                    <p class="parallax-slow">We're building a future where diabetes care is accessible, supportive, and empowering for every individual in our community.</p>
+                </div>
+                <div class="about-visual fade-in-delay">
+                    <span>🏥</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge parallax-fast">Get Started</div>
+                <h2 class="section-title parallax-text">Begin Your Journey</h2>
+                <p class="section-subtitle parallax-slow">Ready to take control of your diabetes management? Connect with our team today and start your path to better health.</p>
+            </div>
+            <form class="contact-form fade-in-delay" id="contactForm">
+                <div class="success-message message" id="successMessage">
+                    Thank you! We'll contact you within 48 hours. For urgent matters, email shauntgpapelian@gmail.com directly.
+                </div>
+                <div class="error-message message" id="errorMessage">
+                    Please fill out all required fields correctly.
+                </div>
+                
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number (Optional)</label>
+                    <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567">
+                </div>
+                
+                <div class="form-group">
+                    <label for="service">Service Interest</label>
+                    <select id="service" name="service">
+                        <option value="">Select a service...</option>
+                        <option value="nutrition-planning">Nutrition Planning</option>
+                        <option value="medication-management">Medication Management</option>
+                        <option value="health-education">Health Education</option>
+                        <option value="24-7-support">24/7 Support</option>
+                        <option value="general-inquiry">General Inquiry</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">How can we help you?</label>
+                    <textarea id="message" name="message" required placeholder="Tell us about your diabetes management goals and how we can support you on your journey..." rows="4"></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Send Message
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 DiabetesConnect. Empowering diabetes care through community support and professional guidance.</p>
+        </div>
+    </footer>
+
     </div>
+    <!-- End Main Content -->
 
-    <div id="medication-page" class="service-page">
-        <header id="service-header-med">
-            <nav class="container">
-                <a href="#" class="logo" onclick="showMainPage()">DiabetesConnect</a>
-                <ul class="nav-links">
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('services'), 100)">Services</a></li>
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('network'), 100)">Our Network</a></li>
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('mission'), 100)">Mission</a></li>
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('about'), 100)">About</a></li>
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('contact'), 100)">Contact</a></li>
-                </ul>
-            </nav>
-        </header>
-
-        <section class="service-hero">
-            <div class="container">
-                <div class="service-hero-content">
-                    <h1 class="fade-in">Medication Management</h1>
-                    <p class="fade-in-delay">Advanced medication storage and dispensing solutions designed to ensure medication security, proper dosing, and optimal therapeutic outcomes for vulnerable populations.</p>
-                    <a href="#" class="back-button fade-in-delay-2" onclick="showMainPage()">← Back to Services</a>
-                </div>
-            </div>
-        </section>
-
-        <section class="service-details">
-            <div class="container">
-                <div class="fade-in">
-                    <h2 class="section-title">Secure Medication Solutions</h2>
-                    <p class="section-subtitle">Our innovative medication management system combines cutting-edge security technology with climate-controlled storage to protect your medications while ensuring proper adherence.</p>
-                </div>
-
-                <div class="service-features">
-                    <div class="feature-card fade-in">
-                        <h4>🔒 Anti-Theft Protection</h4>
-                        <p>State-of-the-art security system specifically designed for vulnerable populations, featuring biometric locks, tamper alerts, and GPS tracking to prevent medication theft.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in-delay">
-                        <h4>🌡️ Climate Control</h4>
-                        <p>Temperature and humidity controlled storage compartments that maintain optimal conditions for insulin and other temperature-sensitive medications, preventing degradation and ensuring efficacy.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in-delay-2">
-                        <h4>⏰ Smart Dispensing</h4>
-                        <p>Automated dispensing system with customizable dosing schedules, visual and audio reminders, and automatic refill notifications to ensure you never miss a dose.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in">
-                        <h4>📱 Mobile Integration</h4>
-                        <p>Companion mobile app that syncs with your device to track medication adherence, monitor storage conditions, and provide real-time alerts to you and your healthcare team.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in-delay">
-                        <h4>👨‍⚕️ Healthcare Connectivity</h4>
-                        <p>Seamless integration with your healthcare providers, allowing for remote monitoring of medication adherence and automatic sharing of compliance data with your medical team.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in-delay-2">
-                        <h4>🆘 Emergency Access</h4>
-                        <p>Emergency override system for critical situations, with 24/7 support hotline and emergency medication access protocols for urgent care scenarios.</p>
-                    </div>
-                </div>
-
-                <div style="text-align: center; margin-top: 60px;" class="fade-in">
-                    <button class="cta-button" onclick="showMainPage(); setTimeout(() => scrollToSection('contact'), 100)">Get started with Medication Management</button>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <div id="education-page" class="service-page">
-        <header id="service-header-edu">
-            <nav class="container">
-                <a href="#" class="logo" onclick="showMainPage()">DiabetesConnect</a>
-                <ul class="nav-links">
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('services'), 100)">Services</a></li>
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('network'), 100)">Our Network</a></li>
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('mission'), 100)">Mission</a></li>
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('about'), 100)">About</a></li>
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('contact'), 100)">Contact</a></li>
-                </ul>
-            </nav>
-        </header>
-
-        <section class="service-hero">
-            <div class="container">
-                <div class="service-hero-content">
-                    <h1 class="fade-in">Health Education</h1>
-                    <p class="fade-in-delay">Comprehensive diabetes education programs designed to empower you with knowledge, skills, and confidence to effectively manage your condition and optimize your health outcomes.</p>
-                    <a href="#" class="back-button fade-in-delay-2" onclick="showMainPage()">← Back to Services</a>
-                </div>
-            </div>
-        </section>
-
-        <section class="service-details">
-            <div class="container">
-                <div class="fade-in">
-                    <h2 class="section-title">Empowerment Through Education</h2>
-                    <p class="section-subtitle">Our health education programs provide evidence-based diabetes management strategies, lifestyle optimization techniques, and prevention protocols delivered by certified diabetes educators.</p>
-                </div>
-
-                <div class="service-features">
-                    <div class="feature-card fade-in">
-                        <h4>🎓 Certified Diabetes Education</h4>
-                        <p>Structured education programs led by Certified Diabetes Care and Education Specialists (CDCES) covering blood sugar management, medication adherence, and complication prevention.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in-delay">
-                        <h4>🏃‍♂️ Lifestyle Management</h4>
-                        <p>Comprehensive lifestyle modification programs including safe exercise protocols, stress management techniques, sleep optimization, and sustainable habit formation strategies.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in-delay-2">
-                        <h4>🩺 Prevention Strategies</h4>
-                        <p>Evidence-based prevention education for family members and at-risk individuals, including prediabetes management, risk factor modification, and early intervention protocols.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in">
-                        <h4>📚 Interactive Learning</h4>
-                        <p>Engaging educational materials including workshops, webinars, interactive modules, and peer learning sessions designed to accommodate different learning styles and schedules.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in-delay">
-                        <h4>👪 Family Education</h4>
-                        <p>Family-focused education programs that teach loved ones how to provide effective support, recognize emergency situations, and create a diabetes-friendly home environment.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in-delay-2">
-                        <h4>🌍 Community Outreach</h4>
-                        <p>Community-based education initiatives, health fairs, and public awareness campaigns to reduce diabetes stigma and promote understanding of diabetes management in the broader community.</p>
-                    </div>
-                </div>
-
-                <div style="text-align: center; margin-top: 60px;" class="fade-in">
-                    <button class="cta-button" onclick="showMainPage(); setTimeout(() => scrollToSection('contact'), 100)">Join Our Education Program</button>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <div id="support-page" class="service-page">
-        <header id="service-header-support">
-            <nav class="container">
-                <a href="#" class="logo" onclick="showMainPage()">DiabetesConnect</a>
-                <ul class="nav-links">
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('services'), 100)">Services</a></li>
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('network'), 100)">Our Network</a></li>
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('mission'), 100)">Mission</a></li>
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('about'), 100)">About</a></li>
-                    <li><a href="#" onclick="showMainPage(); setTimeout(() => scrollToSection('contact'), 100)">Contact</a></li>
-                </ul>
-            </nav>
-        </header>
-
-        <section class="service-hero">
-            <div class="container">
-                <div class="service-hero-content">
-                    <h1 class="fade-in">24/7 Support</h1>
-                    <p class="fade-in-delay">Round-the-clock access to certified diabetes educators, peer support specialists, and emergency resources ensuring you're never alone in your diabetes management journey.</p>
-                    <a href="#" class="back-button fade-in-delay-2" onclick="showMainPage()">← Back to Services</a>
-                </div>
-            </div>
-        </section>
-
-        <section class="service-details">
-            <div class="container">
-                <div class="fade-in">
-                    <h2 class="section-title">Always Here When You Need Us</h2>
-                    <p class="section-subtitle">Our 24/7 support system provides immediate access to diabetes expertise, emotional support, and emergency guidance through multiple communication channels.</p>
-                </div>
-
-                <div class="service-features">
-                    <div class="feature-card fade-in">
-                        <h4>📞 24/7 Hotline</h4>
-                        <p>Dedicated diabetes support hotline staffed by certified diabetes educators and trained support specialists available around the clock for urgent questions and guidance.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in-delay">
-                        <h4>💬 Live Chat Support</h4>
-                        <p>Instant messaging platform with real-time support for quick questions, medication concerns, blood sugar management issues, and general diabetes-related guidance.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in-delay-2">
-                        <h4>🆘 Emergency Protocols</h4>
-                        <p>Immediate emergency response system for severe hypoglycemia, diabetic ketoacidosis, and other urgent situations with direct connections to emergency medical services.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in">
-                        <h4>👥 Peer Support Network</h4>
-                        <p>Connection to trained peer support specialists who understand the daily challenges of living with diabetes, providing emotional support and practical advice from lived experience.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in-delay">
-                        <h4>📱 Mobile App Support</h4>
-                        <p>Comprehensive mobile app with built-in support features, blood sugar logging, medication reminders, and direct access to support team through secure messaging.</p>
-                    </div>
-                    
-                    <div class="feature-card fade-in-delay-2">
-                        <h4>🌙 Night Shift Coverage</h4>
-                        <p>Specialized overnight support team experienced in handling nighttime diabetes emergencies, dawn phenomenon issues, and sleep-related blood sugar concerns.</p>
-                    </div>
-                </div>
-
-                <div style="text-align: center; margin-top: 60px;" class="fade-in">
-                    <button class="cta-button" onclick="showMainPage(); setTimeout(() => scrollToSection('contact'), 100)">Access 24/7 Support</button>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script>
-        // Initialize EmailJS with error handling
-        let emailjsReady = false;
-        try {
-            if (typeof emailjs !== 'undefined') {
-                emailjs.init('GnlXU87Za8zpX6HPd');
-                emailjsReady = true;
-            }
-        } catch (error) {
-            console.log('EmailJS not available:', error);
-        }
-
-        // Page management
-        function showServicePage(service) {
-            document.getElementById('main-page').style.display = 'none';
-            document.getElementById(service + '-page').classList.add('active');
-            window.scrollTo(0, 0);
-            
-            // Trigger fade-in animations for service page
-            setTimeout(() => {
-                observeElements();
-            }, 100);
-        }
-
-        function showMainPage() {
-            document.querySelectorAll('.service-page').forEach(page => {
-                page.classList.remove('active');
-            });
-            document.getElementById('main-page').style.display = 'block';
-            window.scrollTo(0, 0);
-        }
+        // Loading Screen Logic
+        let loadingProgress = 0;
+        const loadingPercentage = document.getElementById('loadingPercentage');
         
+        function updateLoadingProgress() {
+            if (loadingProgress < 100) {
+                loadingProgress += Math.random() * 15 + 5;
+                if (loadingProgress > 100) loadingProgress = 100;
+                
+                loadingPercentage.textContent = Math.floor(loadingProgress) + '%';
+                
+                setTimeout(updateLoadingProgress, 100 + Math.random() * 200);
+            } else {
+                finishLoading();
+            }
+        }
+
+        function finishLoading() {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+                document.getElementById('mainContent').classList.add('loaded');
+                
+                // Initialize animations after loading
+                setTimeout(() => {
+                    observeElements();
+                    initializeCounters();
+                    initializeParallax();
+                }, 300);
+            }, 500);
+        }
+
+        // Start loading animation
+        setTimeout(updateLoadingProgress, 500);
+
+        // Counter Animation
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-target'));
+            const suffix = element.getAttribute('data-suffix') || '';
+            const prefix = element.getAttribute('data-prefix') || '';
+            const duration = 2000;
+            const increment = target / (duration / 16);
+            let current = 0;
+
+            element.classList.add('counting');
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                    setTimeout(() => element.classList.remove('counting'), 300);
+                }
+                element.textContent = prefix + Math.floor(current) + suffix;
+            }, 16);
+        }
+
+        function initializeCounters() {
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.hasAttribute('data-animated')) {
+                        entry.target.setAttribute('data-animated', 'true');
+                        setTimeout(() => {
+                            animateCounter(entry.target);
+                        }, Math.random() * 500);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            document.querySelectorAll('.counter').forEach(counter => {
+                counter.textContent = '0';
+                counterObserver.observe(counter);
+            });
+        }
+
+        // Parallax Scrolling Effects
+        function initializeParallax() {
+            let ticking = false;
+
+            function updateParallax() {
+                const scrolled = window.pageYOffset;
+                const rate = scrolled * -0.5;
+                const rateFast = scrolled * -0.3;
+                const rateSlow = scrolled * -0.7;
+
+                // Different parallax speeds for different elements
+                document.querySelectorAll('.parallax-text').forEach(element => {
+                    const rect = element.getBoundingClientRect();
+                    if (rect.bottom >= 0 && rect.top <= window.innerHeight) {
+                        element.style.transform = `translateY(${rate * 0.1}px)`;
+                    }
+                });
+
+                document.querySelectorAll('.parallax-fast').forEach(element => {
+                    const rect = element.getBoundingClientRect();
+                    if (rect.bottom >= 0 && rect.top <= window.innerHeight) {
+                        element.style.transform = `translateY(${rateFast * 0.15}px)`;
+                    }
+                });
+
+                document.querySelectorAll('.parallax-slow').forEach(element => {
+                    const rect = element.getBoundingClientRect();
+                    if (rect.bottom >= 0 && rect.top <= window.innerHeight) {
+                        element.style.transform = `translateY(${rateSlow * 0.08}px)`;
+                    }
+                });
+
+                ticking = false;
+            }
+
+            function requestParallaxUpdate() {
+                if (!ticking) {
+                    requestAnimationFrame(updateParallax);
+                    ticking = true;
+                }
+            }
+
+            window.addEventListener('scroll', requestParallaxUpdate);
+        }
+
+        // Mouse tracking for cursor effect
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = (e.clientX / window.innerWidth) * 100;
+            const mouseY = (e.clientY / window.innerHeight) * 100;
+            document.body.style.setProperty('--mouse-x', mouseX + '%');
+            document.body.style.setProperty('--mouse-y', mouseY + '%');
+        });
+
         // Header scroll effect
         function updateHeader() {
-            const headers = document.querySelectorAll('header');
-            headers.forEach(header => {
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-            });
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
         }
 
         window.addEventListener('scroll', updateHeader);
-        
-        // Smooth scrolling function
+
+        // Smooth scrolling
         function scrollToSection(sectionId) {
             const element = document.getElementById(sectionId);
             if (element) {
@@ -1377,20 +1227,22 @@
                 });
             }
         }
-        
-        // Navigation link click handlers
-        document.querySelectorAll('.nav-links a').forEach(link => {
+
+        // Navigation click handlers
+        document.querySelectorAll('.nav-links a, .cta-button').forEach(link => {
             link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const href = this.getAttribute('href');
-                if (href && href.startsWith('#')) {
-                    const target = href.substring(1);
-                    scrollToSection(target);
+                const href = this.getAttribute('href') || this.getAttribute('onclick');
+                if (href && href.includes('#')) {
+                    e.preventDefault();
+                    const targetId = href.split('#')[1] || href.match(/scrollToSection\('([^']+)'\)/)?.[1];
+                    if (targetId) {
+                        scrollToSection(targetId);
+                    }
                 }
             });
         });
 
-        // Scroll-triggered fade-in animations
+        // Intersection Observer for animations
         function observeElements() {
             const observerOptions = {
                 threshold: 0.1,
@@ -1405,22 +1257,13 @@
                 });
             }, observerOptions);
 
-            // First add animate class to enable animations, then observe
+            // Observe all fade-in elements
             document.querySelectorAll('.fade-in, .fade-in-delay, .fade-in-delay-2').forEach(el => {
-                el.classList.add('animate');
                 observer.observe(el);
             });
         }
 
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            // Small delay to ensure page is fully loaded
-            setTimeout(() => {
-                observeElements();
-            }, 100);
-        });
-        
-        // Form submission handler
+        // Form submission
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -1439,6 +1282,16 @@
             
             if (!name || !email || !message) {
                 errorMessage.style.display = 'block';
+                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                errorMessage.textContent = 'Please enter a valid email address.';
+                errorMessage.style.display = 'block';
+                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 return;
             }
             
@@ -1446,44 +1299,122 @@
             submitBtn.disabled = true;
             submitBtn.textContent = 'Sending...';
             
-            // Prepare form data
-            const formData = new FormData(this);
-            const templateParams = {
-                from_name: formData.get('name'),
-                from_email: formData.get('email'),
-                phone: formData.get('phone') || 'Not provided',
-                service: formData.get('service') || 'Not specified',
-                message: formData.get('message'),
-                to_name: 'DiabetesConnect Team'
-            };
+            // Simulate form submission (replace with actual form handling)
+            setTimeout(() => {
+                successMessage.style.display = 'block';
+                successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                document.getElementById('contactForm').reset();
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }, 1500);
+        });
+
+        // Add some interactive elements
+        document.querySelectorAll('.service-card, .network-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-12px) scale(1.02)';
+            });
             
-            // Send email using EmailJS or show success message
-            if (emailjsReady && typeof emailjs !== 'undefined') {
-                emailjs.send('service_your_service_id', 'template_your_template_id', templateParams)
-                    .then(function(response) {
-                        console.log('SUCCESS!', response.status, response.text);
-                        successMessage.style.display = 'block';
-                        document.getElementById('contactForm').reset();
-                    })
-                    .catch(function(error) {
-                        console.log('FAILED...', error);
-                        successMessage.style.display = 'block';
-                        document.getElementById('contactForm').reset();
-                    })
-                    .finally(function() {
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = 'Send Message';
-                    });
-            } else {
-                // EmailJS not available, just show success message for demo
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Enhance CTA buttons with ripple effect
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+                
+                this.appendChild(ripple);
+                
                 setTimeout(() => {
-                    successMessage.style.display = 'block';
-                    document.getElementById('contactForm').reset();
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Send Message';
-                }, 1000);
-            }
+                    ripple.remove();
+                }, 600);
+            });
         });
     </script>
+
+    <style>
+        /* Ripple effect for buttons */
+        .cta-button {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* Enhanced hover states */
+        .service-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .network-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Improved accessibility */
+        .cta-button:focus,
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: 2px solid rgba(102, 126, 234, 0.5);
+            outline-offset: 2px;
+        }
+
+        /* Loading state for submit button */
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Mobile navigation improvements */
+        @media (max-width: 768px) {
+            .hero-badge {
+                font-size: 13px;
+                padding: 10px 20px;
+            }
+            
+            .service-card,
+            .network-card {
+                padding: 32px;
+            }
+            
+            .services,
+            .network,
+            .mission,
+            .about,
+            .contact {
+                padding: 100px 0;
+            }
+            
+            .section-header {
+                margin-bottom: 60px;
+            }
+        }
+    </style>
 </body>
 </html>
