@@ -347,18 +347,6 @@
             border-color: var(--border);
         }
 
-        .service-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--primary-color);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
         .service-card h3 {
             font-size: 20px;
             font-weight: 600;
@@ -392,18 +380,6 @@
         .network-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 20px var(--shadow);
-        }
-
-        .network-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--secondary-color);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin: 0 auto 16px;
         }
 
         .network-card h3 {
@@ -464,10 +440,9 @@
 
         /* About section */
         .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 64px;
-            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
         }
 
         .about-text h2 {
@@ -484,16 +459,6 @@
             color: var(--text-secondary);
             margin-bottom: 16px;
             line-height: 1.6;
-        }
-
-        .about-visual {
-            height: 300px;
-            background: var(--primary-color);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 80px;
         }
 
         /* Contact form */
@@ -660,8 +625,9 @@
             }
             
             .about-content {
-                grid-template-columns: 1fr;
-                gap: 48px;
+                max-width: 800px;
+                margin: 0 auto;
+                text-align: center;
             }
             
             .contact-form {
@@ -713,7 +679,6 @@
             <div class="container">
                 <div class="hero-content">
                     <div class="hero-badge fade-in">
-                        <span>🩺</span>
                         <span>Trusted by <span class="counter" data-target="100" data-suffix="+">0</span> patients</span>
                     </div>
                     <h1 class="fade-in-delay">Your Diabetes Support Partner</h1>
@@ -740,28 +705,24 @@
                 </div>
                 <div class="services-grid">
                     <div class="service-card fade-in">
-                        <div class="service-icon">🍎</div>
                         <h3>Nutrition Planning</h3>
                         <p>Personalized meal plans and nutritional guidance crafted by certified diabetes nutritionists to optimize your blood sugar management.</p>
-                        <button class="cta-button secondary">Learn More</button>
+                        <button class="cta-button secondary" onclick="scrollToSection('contact')">Learn More</button>
                     </div>
                     <div class="service-card fade-in-delay">
-                        <div class="service-icon">💊</div>
                         <h3>Medication Management</h3>
                         <p>Secure, climate-controlled medication storage with smart dispensing technology designed specifically for vulnerable populations.</p>
-                        <button class="cta-button secondary">Learn More</button>
+                        <button class="cta-button secondary" onclick="scrollToSection('contact')">Learn More</button>
                     </div>
                     <div class="service-card fade-in-delay-2">
-                        <div class="service-icon">🎓</div>
                         <h3>Health Education</h3>
                         <p>Comprehensive diabetes education programs covering lifestyle management, prevention strategies, and health optimization.</p>
-                        <button class="cta-button secondary">Learn More</button>
+                        <button class="cta-button secondary" onclick="scrollToSection('contact')">Learn More</button>
                     </div>
                     <div class="service-card fade-in">
-                        <div class="service-icon">📱</div>
                         <h3>24/7 Support</h3>
                         <p>Round-the-clock access to certified diabetes educators and peer support specialists when you need them most.</p>
-                        <button class="cta-button secondary">Learn More</button>
+                        <button class="cta-button secondary" onclick="scrollToSection('contact')">Learn More</button>
                     </div>
                 </div>
             </div>
@@ -776,37 +737,31 @@
                 </div>
                 <div class="network-grid">
                     <div class="network-card fade-in">
-                        <div class="network-icon">🏥</div>
                         <h3>Medical Centers</h3>
                         <p>Specialized diabetes programs through county health facilities with dedicated education and management services.</p>
                         <div class="network-highlight">Diabetes Programs</div>
                     </div>
                     <div class="network-card fade-in-delay">
-                        <div class="network-icon">👨‍⚕️</div>
                         <h3>Endocrinologists</h3>
                         <p>Direct connections to board-certified specialists accepting new patients and focused on diabetes care.</p>
                         <div class="network-highlight">New Patients Welcome</div>
                     </div>
                     <div class="network-card fade-in-delay-2">
-                        <div class="network-icon">💊</div>
                         <h3>Partner Pharmacies</h3>
                         <p>Local pharmacies offering medication assistance programs and specialized diabetes supply consultation.</p>
                         <div class="network-highlight">Assistance Programs</div>
                     </div>
                     <div class="network-card fade-in">
-                        <div class="network-icon">🏃‍♀️</div>
                         <h3>Wellness Programs</h3>
                         <p>Community centers offering diabetes-friendly fitness classes and dietary counseling services.</p>
                         <div class="network-highlight">Community Programs</div>
                     </div>
                     <div class="network-card fade-in-delay">
-                        <div class="network-icon">🆓</div>
                         <h3>Free Clinics</h3>
                         <p>Comprehensive free medical care and diabetes screenings for uninsured and underinsured patients.</p>
                         <div class="network-highlight">No Cost Services</div>
                     </div>
                     <div class="network-card fade-in-delay-2">
-                        <div class="network-icon">🎓</div>
                         <h3>Educational Partners</h3>
                         <p>Healthcare education and community outreach programs connecting students with diabetes care initiatives.</p>
                         <div class="network-highlight">Community Outreach</div>
@@ -839,10 +794,6 @@
                         <div class="stat-number counter" data-target="35">0</div>
                         <div class="stat-label">Physicians per 100k residents</div>
                     </div>
-                    <div class="stat-card fade-in">
-                        <div class="stat-number counter" data-target="100" data-suffix="%">0</div>
-                        <div class="stat-label">Free services for everyone</div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -856,9 +807,6 @@
                         <p>We are a dedicated team of UC Riverside undergraduate students committed to reducing health disparities in the Inland Empire and beyond. Our passion drives us to create meaningful change in diabetes care accessibility.</p>
                         <p>Through partnerships with certified diabetes educators, nutritionists, and healthcare professionals, we deliver evidence-based care combined with personalized support.</p>
                         <p>We're building a future where diabetes care is accessible, supportive, and empowering for every individual in our community.</p>
-                    </div>
-                    <div class="about-visual fade-in-delay">
-                        <span>🏥</span>
                     </div>
                 </div>
             </div>
@@ -891,4 +839,218 @@
                     
                     <div class="form-group">
                         <label for="phone">Phone Number (Optional)</label>
-                        <input type="tel" id="phone" name="phone" placeholder="(555) 
+                        <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="service">Service Interest</label>
+                        <select id="service" name="service">
+                            <option value="">Select a service...</option>
+                            <option value="nutrition-planning">Nutrition Planning</option>
+                            <option value="medication-management">Medication Management</option>
+                            <option value="health-education">Health Education</option>
+                            <option value="24-7-support">24/7 Support</option>
+                            <option value="general-inquiry">General Inquiry</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">How can we help you?</label>
+                        <textarea id="message" name="message" required placeholder="Tell us about your diabetes management goals and how we can support you on your journey..." rows="4"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <p>&copy; 2025 DiabetesConnect. Empowering diabetes care through community support and professional guidance.</p>
+            </div>
+        </footer>
+
+    </div>
+    <!-- End Main Content -->
+
+    <script>
+        // Loading Screen Logic
+        let loadingProgress = 0;
+        const loadingPercentage = document.getElementById('loadingPercentage');
+        
+        function updateLoadingProgress() {
+            if (loadingProgress < 100) {
+                loadingProgress += Math.random() * 8 + 4;
+                if (loadingProgress > 100) loadingProgress = 100;
+                
+                loadingPercentage.textContent = Math.floor(loadingProgress) + '%';
+                
+                if (loadingProgress < 100) {
+                    setTimeout(updateLoadingProgress, 80 + Math.random() * 120);
+                } else {
+                    finishLoading();
+                }
+            }
+        }
+
+        function finishLoading() {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+                document.getElementById('mainContent').classList.add('loaded');
+                
+                // Initialize animations after loading
+                setTimeout(() => {
+                    observeElements();
+                    initializeCounters();
+                }, 300);
+            }, 800);
+        }
+
+        // Start loading animation
+        setTimeout(updateLoadingProgress, 200);
+
+        // Counter Animation
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-target'));
+            const suffix = element.getAttribute('data-suffix') || '';
+            const prefix = element.getAttribute('data-prefix') || '';
+            const duration = 2000;
+            const increment = target / (duration / 16);
+            let current = 0;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = prefix + Math.floor(current) + suffix;
+            }, 16);
+        }
+
+        function initializeCounters() {
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.hasAttribute('data-animated')) {
+                        entry.target.setAttribute('data-animated', 'true');
+                        setTimeout(() => {
+                            animateCounter(entry.target);
+                        }, Math.random() * 500);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            document.querySelectorAll('.counter').forEach(counter => {
+                counter.textContent = counter.getAttribute('data-prefix') || '0';
+                counterObserver.observe(counter);
+            });
+        }
+
+        // Header scroll effect
+        function updateHeader() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }
+
+        window.addEventListener('scroll', updateHeader);
+
+        // Smooth scrolling
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        // Navigation click handlers
+        document.querySelectorAll('.nav-links a, .cta-button').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href') || this.getAttribute('onclick');
+                if (href && href.includes('#')) {
+                    e.preventDefault();
+                    const targetId = href.split('#')[1] || href.match(/scrollToSection\('([^']+)'\)/)?.[1];
+                    if (targetId) {
+                        scrollToSection(targetId);
+                    }
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        function observeElements() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all fade-in elements
+            document.querySelectorAll('.fade-in, .fade-in-delay, .fade-in-delay-2').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Hide previous messages
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+            
+            // Basic validation
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            
+            if (!name || !email || !message) {
+                errorMessage.style.display = 'block';
+                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                errorMessage.textContent = 'Please enter a valid email address.';
+                errorMessage.style.display = 'block';
+                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+            
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            
+            // Simulate form submission
+            setTimeout(() => {
+                successMessage.style.display = 'block';
+                successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                document.getElementById('contactForm').reset();
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
