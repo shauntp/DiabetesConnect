@@ -4,8 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DiabetesConnect - Your Diabetes Support Partner</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #10a37f;
+            --primary-hover: #0d8a6b;
+            --secondary-color: #6366f1;
+            --accent-color: #f59e0b;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --background: #ffffff;
+            --surface: #f9fafb;
+            --border: #e5e7eb;
+            --border-light: #f3f4f6;
+            --shadow: rgba(0, 0, 0, 0.05);
+            --shadow-medium: rgba(0, 0, 0, 0.1);
+            --shadow-strong: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
         /* Loading Screen */
         .loading-screen {
             position: fixed;
@@ -13,7 +52,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--dark-gradient);
+            background: var(--background);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -28,39 +67,35 @@
         }
 
         .loading-logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 48px;
-            font-weight: 800;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 40px;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 24px;
             animation: pulse 2s infinite;
         }
 
         .loading-text {
-            font-size: 18px;
+            font-size: 16px;
             color: var(--text-secondary);
-            margin-bottom: 40px;
+            margin-bottom: 32px;
             opacity: 0;
             animation: fadeInUp 1s ease 0.5s forwards;
         }
 
         .loading-progress {
-            width: 300px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
+            width: 240px;
+            height: 2px;
+            background: var(--border);
+            border-radius: 1px;
             overflow: hidden;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .loading-bar {
             width: 0%;
             height: 100%;
-            background: var(--primary-gradient);
-            border-radius: 2px;
+            background: var(--primary-color);
+            border-radius: 1px;
             animation: loadingProgress 2.5s ease forwards;
         }
 
@@ -71,14 +106,14 @@
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(16px);
             }
             to {
                 opacity: 1;
@@ -105,127 +140,42 @@
             opacity: 1;
         }
 
-        /* Parallax text effects */
-        .parallax-text {
-            transform: translateY(0);
-            transition: transform 0.1s ease-out;
-        }
-
-        .parallax-slow {
-            transform: translateY(0);
-            transition: transform 0.1s ease-out;
-        }
-
-        .parallax-fast {
-            transform: translateY(0);
-            transition: transform 0.1s ease-out;
-        }
-
-        /* Counter animation styles */
-        .counter {
-            display: inline-block;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .counter.counting {
-            animation: counterGlow 0.3s ease;
-        }
-
-        @keyframes counterGlow {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); text-shadow: 0 0 20px rgba(102, 126, 234, 0.5); }
-            100% { transform: scale(1); }
-        }
-
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --accent-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --warm-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            --dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
-            --glass-bg: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.12);
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.75);
-            --text-muted: rgba(255, 255, 255, 0.55);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--dark-gradient);
-            color: var(--text-primary);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* Custom cursor */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: 
-                radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(102, 126, 234, 0.06) 0%, transparent 40%),
-                var(--dark-gradient);
-            pointer-events: none;
-            z-index: -1;
-            transition: all 0.3s ease;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 32px;
-        }
-
-        /* Navigation with glassmorphism */
+        /* Navigation */
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(12, 12, 12, 0.85);
-            backdrop-filter: blur(32px) saturate(180%);
-            border-bottom: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
             z-index: 1000;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
         }
 
         header.scrolled {
-            background: rgba(12, 12, 12, 0.95);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 1px 3px var(--shadow);
         }
 
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
+            padding: 16px 0;
         }
 
         .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 28px;
-            font-weight: 800;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
             text-decoration: none;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.025em;
         }
 
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 40px;
+            gap: 32px;
         }
 
         .nav-links a {
@@ -233,79 +183,56 @@
             color: var(--text-secondary);
             font-weight: 500;
             font-size: 15px;
-            transition: all 0.3s ease;
-            position: relative;
-            padding: 8px 16px;
-            border-radius: 12px;
+            transition: color 0.2s ease;
+            padding: 8px 0;
         }
 
         .nav-links a:hover {
             color: var(--text-primary);
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
         }
 
-        /* Hero section with enhanced typography hierarchy */
+        /* Hero section */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.12) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(240, 147, 251, 0.08) 0%, transparent 50%);
+            padding-top: 80px;
         }
 
         .hero-content {
-            max-width: 1000px;
+            max-width: 800px;
             margin: 0 auto;
             text-align: center;
-            position: relative;
-            z-index: 2;
         }
 
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 12px 24px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
+            padding: 8px 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
             border-radius: 50px;
             font-size: 14px;
             font-weight: 500;
             margin-bottom: 32px;
-            backdrop-filter: blur(10px);
+            color: var(--text-secondary);
         }
 
         .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(56px, 8vw, 92px);
-            font-weight: 800;
-            line-height: 0.95;
-            letter-spacing: -0.02em;
-            margin-bottom: 32px;
-            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: clamp(40px, 8vw, 64px);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.025em;
+            margin-bottom: 24px;
+            color: var(--text-primary);
         }
 
         .hero p {
-            font-size: 22px;
+            font-size: 20px;
             color: var(--text-secondary);
             margin-bottom: 48px;
-            line-height: 1.6;
+            line-height: 1.5;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
@@ -313,434 +240,363 @@
 
         .cta-group {
             display: flex;
-            gap: 20px;
+            gap: 16px;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
         }
 
         .cta-button {
-            position: relative;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 18px 32px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 16px;
+            border-radius: 8px;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 15px;
             text-decoration: none;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
+            transition: all 0.2s ease;
+            font-family: inherit;
         }
 
         .cta-button.primary {
-            background: var(--primary-gradient);
+            background: var(--primary-color);
             color: white;
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
         }
 
         .cta-button.primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+            background: var(--primary-hover);
+            transform: translateY(-1px);
         }
 
         .cta-button.secondary {
-            background: var(--glass-bg);
+            background: var(--background);
             color: var(--text-primary);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
         }
 
         .cta-button.secondary:hover {
-            background: rgba(255, 255, 255, 0.12);
-            transform: translateY(-2px);
+            border-color: var(--text-secondary);
         }
 
-        /* Services with enhanced card design */
-        .services {
-            padding: 150px 0;
-            position: relative;
+        /* Sections */
+        .section {
+            padding: 96px 0;
+        }
+
+        .section.alt {
+            background: var(--surface);
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 100px;
+            margin-bottom: 64px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .section-badge {
             display: inline-block;
-            padding: 8px 20px;
-            background: var(--success-gradient);
+            padding: 4px 12px;
+            background: var(--primary-color);
             color: white;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
-            border-radius: 50px;
-            margin-bottom: 24px;
+            border-radius: 4px;
+            margin-bottom: 16px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.05em;
         }
 
         .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(48px, 6vw, 72px);
+            font-size: clamp(32px, 5vw, 48px);
             font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-            margin-bottom: 24px;
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+            margin-bottom: 16px;
+            color: var(--text-primary);
         }
 
         .section-subtitle {
-            font-size: 20px;
+            font-size: 18px;
             color: var(--text-secondary);
-            max-width: 700px;
-            margin: 0 auto;
             line-height: 1.6;
         }
 
+        /* Services Grid */
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 32px;
-            max-width: 1200px;
-            margin: 0 auto;
         }
 
         .service-card {
-            position: relative;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 48px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--primary-gradient);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            transition: all 0.3s ease;
         }
 
         .service-card:hover {
-            transform: translateY(-8px);
-            background: rgba(255, 255, 255, 0.12);
-            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
-        }
-
-        .service-card:hover::before {
-            opacity: 1;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px var(--shadow-medium);
+            border-color: var(--border);
         }
 
         .service-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--primary-gradient);
-            border-radius: 20px;
+            width: 48px;
+            height: 48px;
+            background: var(--primary-color);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 36px;
-            margin-bottom: 32px;
+            font-size: 24px;
+            margin-bottom: 20px;
         }
 
         .service-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 28px;
+            font-size: 20px;
             font-weight: 600;
-            margin-bottom: 20px;
-            letter-spacing: -0.01em;
+            margin-bottom: 12px;
+            color: var(--text-primary);
         }
 
         .service-card p {
             color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 32px;
-            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
         }
 
-        .service-card .cta-button {
-            font-size: 14px;
-            padding: 12px 24px;
-            background: transparent;
-            color: var(--text-primary);
-            border: 1px solid var(--glass-border);
-        }
-
-        .service-card .cta-button:hover {
-            background: var(--primary-gradient);
-            border-color: transparent;
-        }
-
-        /* Network section with premium card layout */
-        .network {
-            padding: 150px 0;
-            background: rgba(255, 255, 255, 0.02);
-        }
-
+        /* Network Grid */
         .network-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 32px;
-            margin-top: 80px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
         }
 
         .network-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 40px;
-            transition: all 0.4s ease;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
             text-align: center;
+            transition: all 0.3s ease;
         }
 
         .network-card:hover {
-            transform: translateY(-8px);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px var(--shadow);
         }
 
         .network-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--accent-gradient);
-            border-radius: 20px;
+            width: 48px;
+            height: 48px;
+            background: var(--secondary-color);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 36px;
-            margin: 0 auto 24px;
+            font-size: 24px;
+            margin: 0 auto 16px;
         }
 
         .network-card h3 {
-            font-size: 24px;
+            font-size: 18px;
             font-weight: 600;
-            margin-bottom: 16px;
+            margin-bottom: 8px;
             color: var(--text-primary);
         }
 
         .network-card p {
             color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 24px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            font-size: 14px;
         }
 
         .network-highlight {
             display: inline-block;
-            padding: 8px 16px;
-            background: var(--success-gradient);
+            padding: 4px 8px;
+            background: var(--accent-color);
             color: white;
-            border-radius: 50px;
+            border-radius: 4px;
             font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.05em;
         }
 
-        /* Mission section with enhanced typography */
-        .mission {
-            padding: 150px 0;
-        }
-
-        .mission-content {
-            max-width: 1000px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .mission-statement {
-            font-size: 20px;
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 80px;
-        }
-
-        .mission-statement p {
-            margin-bottom: 32px;
-        }
-
+        /* Stats */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 48px;
-            margin-top: 80px;
+            gap: 32px;
+            margin-top: 48px;
         }
 
         .stat-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 40px 24px;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
             text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.08);
         }
 
         .stat-number {
-            font-family: 'Playfair Display', serif;
-            font-size: 56px;
-            font-weight: 800;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 16px;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
             line-height: 1;
         }
 
         .stat-label {
-            font-size: 15px;
-            color: var(--text-muted);
+            font-size: 14px;
+            color: var(--text-secondary);
             line-height: 1.4;
         }
 
-        /* About section with split layout */
-        .about {
-            padding: 150px 0;
-            background: rgba(255, 255, 255, 0.02);
-        }
-
+        /* About section */
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 100px;
+            gap: 64px;
             align-items: center;
         }
 
         .about-text h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 56px;
+            font-size: 36px;
             font-weight: 700;
-            margin-bottom: 40px;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+            color: var(--text-primary);
         }
 
         .about-text p {
-            font-size: 18px;
+            font-size: 16px;
             color: var(--text-secondary);
-            margin-bottom: 24px;
-            line-height: 1.7;
+            margin-bottom: 16px;
+            line-height: 1.6;
         }
 
         .about-visual {
-            position: relative;
-            height: 400px;
-            background: var(--primary-gradient);
-            border-radius: 32px;
+            height: 300px;
+            background: var(--primary-color);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 120px;
-            overflow: hidden;
+            font-size: 80px;
         }
 
-        .about-visual::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        /* Contact section with modern form */
-        .contact {
-            padding: 150px 0;
-        }
-
+        /* Contact form */
         .contact-form {
             max-width: 600px;
             margin: 0 auto;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            padding: 64px;
-            border-radius: 32px;
+            background: var(--background);
+            border: 1px solid var(--border);
+            padding: 48px;
+            border-radius: 12px;
         }
 
         .form-group {
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 12px;
-            font-weight: 600;
+            margin-bottom: 8px;
+            font-weight: 500;
             color: var(--text-primary);
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .form-group input,
         .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 18px 24px;
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            font-size: 16px;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 15px;
             font-family: inherit;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--background);
             color: var(--text-primary);
-            transition: all 0.3s ease;
+            transition: border-color 0.2s ease;
         }
 
         .form-group input:focus,
         .form-group textarea:focus,
         .form-group select:focus {
             outline: none;
-            border-color: rgba(102, 126, 234, 0.5);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            border-color: var(--primary-color);
         }
 
         .submit-btn {
             width: 100%;
-            padding: 20px;
-            background: var(--primary-gradient);
+            padding: 12px;
+            background: var(--primary-color);
             border: none;
-            border-radius: 16px;
+            border-radius: 8px;
             color: white;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background-color 0.2s ease;
+            font-family: inherit;
         }
 
         .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+            background: var(--primary-hover);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Messages */
+        .message {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .success-message {
+            background: #dcfce7;
+            border: 1px solid #22c55e;
+            color: #16a34a;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            border: 1px solid #ef4444;
+            color: #dc2626;
         }
 
         /* Footer */
         footer {
-            background: rgba(0, 0, 0, 0.5);
-            border-top: 1px solid var(--glass-border);
-            padding: 60px 0;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 48px 0;
             text-align: center;
-            color: var(--text-muted);
+            color: var(--text-secondary);
         }
 
         /* Animations */
         .fade-in {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(20px);
+            transition: all 0.6s ease;
         }
 
         .fade-in.visible {
@@ -750,8 +606,8 @@
 
         .fade-in-delay {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+            transform: translateY(20px);
+            transition: all 0.6s ease 0.1s;
         }
 
         .fade-in-delay.visible {
@@ -761,8 +617,8 @@
 
         .fade-in-delay-2 {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s;
+            transform: translateY(20px);
+            transition: all 0.6s ease 0.2s;
         }
 
         .fade-in-delay-2.visible {
@@ -770,23 +626,29 @@
             transform: translateY(0);
         }
 
+        /* Counter animation */
+        .counter {
+            display: inline-block;
+            font-variant-numeric: tabular-nums;
+        }
+
         /* Responsive design */
         @media (max-width: 768px) {
             .container {
-                padding: 0 20px;
+                padding: 0 16px;
             }
             
             .nav-links {
                 display: none;
             }
             
-            .hero-content {
-                padding: 0 20px;
-            }
-            
             .cta-group {
                 flex-direction: column;
                 align-items: stretch;
+            }
+            
+            .cta-button {
+                justify-content: center;
             }
             
             .services-grid {
@@ -799,38 +661,25 @@
             
             .about-content {
                 grid-template-columns: 1fr;
-                gap: 60px;
+                gap: 48px;
             }
             
             .contact-form {
-                padding: 40px 32px;
+                padding: 32px 24px;
             }
             
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 32px;
+                gap: 24px;
             }
-        }
 
-        /* Success/Error messages */
-        .message {
-            padding: 16px 24px;
-            border-radius: 12px;
-            margin-bottom: 24px;
-            display: none;
-            font-weight: 500;
-        }
+            .section {
+                padding: 64px 0;
+            }
 
-        .success-message {
-            background: rgba(79, 172, 254, 0.15);
-            border: 1px solid rgba(79, 172, 254, 0.3);
-            color: #4facfe;
-        }
-
-        .error-message {
-            background: rgba(245, 87, 108, 0.15);
-            border: 1px solid rgba(245, 87, 108, 0.3);
-            color: #f5576c;
+            .section-header {
+                margin-bottom: 48px;
+            }
         }
     </style>
 </head>
@@ -847,137 +696,139 @@
 
     <!-- Main Content -->
     <div class="main-content" id="mainContent">
-    <header id="header">
-        <nav class="container">
-            <a href="#home" class="logo">DiabetesConnect</a>
-            <ul class="nav-links">
-                <li><a href="#services">Services</a></li>
-                <li><a href="#network">Network</a></li>
-                <li><a href="#mission">Mission</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+        <header id="header">
+            <nav class="container">
+                <a href="#home" class="logo">DiabetesConnect</a>
+                <ul class="nav-links">
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#network">Network</a></li>
+                    <li><a href="#mission">Mission</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
 
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-badge fade-in">
-                    <span>🩺</span>
-                    <span>Trusted by <span class="counter" data-target="10" data-suffix="K+">0</span> patients</span>
-                </div>
-                <h1 class="fade-in-delay parallax-text">Your Diabetes Support Partner</h1>
-                <p class="fade-in-delay-2 parallax-slow">Transforming diabetes care through personalized treatment plans, expert medical guidance, and complete support for lasting health outcomes.</p>
-                <div class="cta-group fade-in-delay-2">
-                    <button class="cta-button primary" onclick="scrollToSection('services')">
-                        Get Started Today
-                        <span>→</span>
-                    </button>
-                    <button class="cta-button secondary" onclick="scrollToSection('about')">
-                        Learn Our Story
-                    </button>
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-badge fade-in">
+                        <span>🩺</span>
+                        <span>Trusted by <span class="counter" data-target="100" data-suffix="+">0</span> patients</span>
+                    </div>
+                    <h1 class="fade-in-delay">Your Diabetes Support Partner</h1>
+                    <p class="fade-in-delay-2">Transforming diabetes care through personalized treatment plans, expert medical guidance, and complete support for lasting health outcomes.</p>
+                    <div class="cta-group fade-in-delay-2">
+                        <button class="cta-button primary" onclick="scrollToSection('services')">
+                            Get Started Today
+                            <span>→</span>
+                        </button>
+                        <button class="cta-button secondary" onclick="scrollToSection('about')">
+                            Learn Our Story
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="services" class="services">
-        <div class="container">
-            <div class="section-header fade-in">
-                <div class="section-badge parallax-fast">Our Services</div>
-                <h2 class="section-title parallax-text">Comprehensive Care</h2>
-                <p class="section-subtitle parallax-slow">Everything you need to manage your diabetes with confidence, delivered through our expert-designed support system.</p>
+        <section id="services" class="section">
+            <div class="container">
+                <div class="section-header fade-in">
+                    <div class="section-badge">Our Services</div>
+                    <h2 class="section-title">Comprehensive Care</h2>
+                    <p class="section-subtitle">Everything you need to manage your diabetes with confidence, delivered through our expert-designed support system.</p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card fade-in">
+                        <div class="service-icon">🍎</div>
+                        <h3>Nutrition Planning</h3>
+                        <p>Personalized meal plans and nutritional guidance crafted by certified diabetes nutritionists to optimize your blood sugar management.</p>
+                        <button class="cta-button secondary">Learn More</button>
+                    </div>
+                    <div class="service-card fade-in-delay">
+                        <div class="service-icon">💊</div>
+                        <h3>Medication Management</h3>
+                        <p>Secure, climate-controlled medication storage with smart dispensing technology designed specifically for vulnerable populations.</p>
+                        <button class="cta-button secondary">Learn More</button>
+                    </div>
+                    <div class="service-card fade-in-delay-2">
+                        <div class="service-icon">🎓</div>
+                        <h3>Health Education</h3>
+                        <p>Comprehensive diabetes education programs covering lifestyle management, prevention strategies, and health optimization.</p>
+                        <button class="cta-button secondary">Learn More</button>
+                    </div>
+                    <div class="service-card fade-in">
+                        <div class="service-icon">📱</div>
+                        <h3>24/7 Support</h3>
+                        <p>Round-the-clock access to certified diabetes educators and peer support specialists when you need them most.</p>
+                        <button class="cta-button secondary">Learn More</button>
+                    </div>
+                </div>
             </div>
-            <div class="services-grid">
-                <div class="service-card fade-in">
-                    <div class="service-icon">🍎</div>
-                    <h3>Nutrition Planning</h3>
-                    <p>Personalized meal plans and nutritional guidance crafted by certified diabetes nutritionists to optimize your blood sugar management.</p>
-                    <button class="cta-button">Learn More</button>
-                </div>
-                <div class="service-card fade-in-delay">
-                    <div class="service-icon">💊</div>
-                    <h3>Medication Management</h3>
-                    <p>Secure, climate-controlled medication storage with smart dispensing technology designed specifically for vulnerable populations.</p>
-                    <button class="cta-button">Learn More</button>
-                </div>
-                <div class="service-card fade-in-delay-2">
-                    <div class="service-icon">🎓</div>
-                    <h3>Health Education</h3>
-                    <p>Comprehensive diabetes education programs covering lifestyle management, prevention strategies, and health optimization.</p>
-                    <button class="cta-button">Learn More</button>
-                </div>
-                <div class="service-card fade-in">
-                    <div class="service-icon">📱</div>
-                    <h3>24/7 Support</h3>
-                    <p>Round-the-clock access to certified diabetes educators and peer support specialists when you need them most.</p>
-                    <button class="cta-button">Learn More</button>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="network" class="network">
-        <div class="container">
-            <div class="section-header fade-in">
-                <div class="section-badge parallax-fast">Our Network</div>
-                <h2 class="section-title parallax-text">Connected Care</h2>
-                <p class="section-subtitle parallax-slow">We've partnered with trusted healthcare providers and community organizations across California to ensure comprehensive diabetes care.</p>
+        <section id="network" class="section alt">
+            <div class="container">
+                <div class="section-header fade-in">
+                    <div class="section-badge">Our Network</div>
+                    <h2 class="section-title">Connected Care</h2>
+                    <p class="section-subtitle">We've partnered with trusted healthcare providers and community organizations across California to ensure comprehensive diabetes care.</p>
+                </div>
+                <div class="network-grid">
+                    <div class="network-card fade-in">
+                        <div class="network-icon">🏥</div>
+                        <h3>Medical Centers</h3>
+                        <p>Specialized diabetes programs through county health facilities with dedicated education and management services.</p>
+                        <div class="network-highlight">Diabetes Programs</div>
+                    </div>
+                    <div class="network-card fade-in-delay">
+                        <div class="network-icon">👨‍⚕️</div>
+                        <h3>Endocrinologists</h3>
+                        <p>Direct connections to board-certified specialists accepting new patients and focused on diabetes care.</p>
+                        <div class="network-highlight">New Patients Welcome</div>
+                    </div>
+                    <div class="network-card fade-in-delay-2">
+                        <div class="network-icon">💊</div>
+                        <h3>Partner Pharmacies</h3>
+                        <p>Local pharmacies offering medication assistance programs and specialized diabetes supply consultation.</p>
+                        <div class="network-highlight">Assistance Programs</div>
+                    </div>
+                    <div class="network-card fade-in">
+                        <div class="network-icon">🏃‍♀️</div>
+                        <h3>Wellness Programs</h3>
+                        <p>Community centers offering diabetes-friendly fitness classes and dietary counseling services.</p>
+                        <div class="network-highlight">Community Programs</div>
+                    </div>
+                    <div class="network-card fade-in-delay">
+                        <div class="network-icon">🆓</div>
+                        <h3>Free Clinics</h3>
+                        <p>Comprehensive free medical care and diabetes screenings for uninsured and underinsured patients.</p>
+                        <div class="network-highlight">No Cost Services</div>
+                    </div>
+                    <div class="network-card fade-in-delay-2">
+                        <div class="network-icon">🎓</div>
+                        <h3>Educational Partners</h3>
+                        <p>Healthcare education and community outreach programs connecting students with diabetes care initiatives.</p>
+                        <div class="network-highlight">Community Outreach</div>
+                    </div>
+                </div>
             </div>
-            <div class="network-grid">
-                <div class="network-card fade-in">
-                    <div class="network-icon">🏥</div>
-                    <h3>Medical Centers</h3>
-                    <p>Specialized diabetes programs through county health facilities with dedicated education and management services.</p>
-                    <div class="network-highlight">Diabetes Programs</div>
-                </div>
-                <div class="network-card fade-in-delay">
-                    <div class="network-icon">👨‍⚕️</div>
-                    <h3>Endocrinologists</h3>
-                    <p>Direct connections to board-certified specialists accepting new patients and focused on diabetes care.</p>
-                    <div class="network-highlight">New Patients Welcome</div>
-                </div>
-                <div class="network-card fade-in-delay-2">
-                    <div class="network-icon">💊</div>
-                    <h3>Partner Pharmacies</h3>
-                    <p>Local pharmacies offering medication assistance programs and specialized diabetes supply consultation.</p>
-                    <div class="network-highlight">Assistance Programs</div>
-                </div>
-                <div class="network-card fade-in">
-                    <div class="network-icon">🏃‍♀️</div>
-                    <h3>Wellness Programs</h3>
-                    <p>Community centers offering diabetes-friendly fitness classes and dietary counseling services.</p>
-                    <div class="network-highlight">Community Programs</div>
-                </div>
-                <div class="network-card fade-in-delay">
-                    <div class="network-icon">🆓</div>
-                    <h3>Free Clinics</h3>
-                    <p>Comprehensive free medical care and diabetes screenings for uninsured and underinsured patients.</p>
-                    <div class="network-highlight">No Cost Services</div>
-                </div>
-                <div class="network-card fade-in-delay-2">
-                    <div class="network-icon">🎓</div>
-                    <h3>Educational Partners</h3>
-                    <p>Healthcare education and community outreach programs connecting students with diabetes care initiatives.</p>
-                    <div class="network-highlight">Community Outreach</div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="mission" class="mission">
-        <div class="container">
-            <div class="mission-content fade-in">
-                <div class="section-badge parallax-fast">Our Mission</div>
-                <h2 class="section-title parallax-text">Transforming Diabetes Care</h2>
-                <div class="mission-statement parallax-slow">
-                    <p>DiabetesConnect addresses the diabetes epidemic nationwide with a focus on California's Inland Empire. We recognize that managing diabetes shouldn't mean navigating complex healthcare systems alone.</p>
-                    <p>Our mission is connecting patients to existing resources, providing peer support, and ensuring no one faces diabetes management in isolation. Available in English and Spanish, we meet you where you are in your journey.</p>
+        <section id="mission" class="section">
+            <div class="container">
+                <div class="section-header fade-in">
+                    <div class="section-badge">Our Mission</div>
+                    <h2 class="section-title">Transforming Diabetes Care</h2>
+                    <div class="section-subtitle">
+                        <p>DiabetesConnect addresses the diabetes epidemic nationwide with a focus on California's Inland Empire. We recognize that managing diabetes shouldn't mean navigating complex healthcare systems alone.</p>
+                        <br>
+                        <p>Our mission is connecting patients to existing resources, providing peer support, and ensuring no one faces diabetes management in isolation. Available in English and Spanish, we meet you where you are in your journey.</p>
+                    </div>
                 </div>
                 <div class="stats-grid">
                     <div class="stat-card fade-in">
-                        <div class="stat-number counter" data-target="14">0</div>
+                        <div class="stat-number counter" data-target="14" data-suffix="%">0</div>
                         <div class="stat-label">Inland Empire diabetes rate vs 9% statewide</div>
                     </div>
                     <div class="stat-card fade-in-delay">
@@ -989,432 +840,55 @@
                         <div class="stat-label">Physicians per 100k residents</div>
                     </div>
                     <div class="stat-card fade-in">
-                        <div class="stat-number counter" data-target="100">0</div>
+                        <div class="stat-number counter" data-target="100" data-suffix="%">0</div>
                         <div class="stat-label">Free services for everyone</div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="about" class="about">
-        <div class="container">
-            <div class="about-content">
-                <div class="about-text fade-in">
-                    <div class="section-badge parallax-fast">About Us</div>
-                    <h2 class="parallax-text">Empowering Communities</h2>
-                    <p class="parallax-slow">We are a dedicated team of UC Riverside undergraduate students committed to reducing health disparities in the Inland Empire and beyond. Our passion drives us to create meaningful change in diabetes care accessibility.</p>
-                    <p class="parallax-slow">Through partnerships with certified diabetes educators, nutritionists, and healthcare professionals, we deliver evidence-based care combined with personalized support.</p>
-                    <p class="parallax-slow">We're building a future where diabetes care is accessible, supportive, and empowering for every individual in our community.</p>
-                </div>
-                <div class="about-visual fade-in-delay">
-                    <span>🏥</span>
+        <section id="about" class="section alt">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text fade-in">
+                        <div class="section-badge">About Us</div>
+                        <h2>Empowering Communities</h2>
+                        <p>We are a dedicated team of UC Riverside undergraduate students committed to reducing health disparities in the Inland Empire and beyond. Our passion drives us to create meaningful change in diabetes care accessibility.</p>
+                        <p>Through partnerships with certified diabetes educators, nutritionists, and healthcare professionals, we deliver evidence-based care combined with personalized support.</p>
+                        <p>We're building a future where diabetes care is accessible, supportive, and empowering for every individual in our community.</p>
+                    </div>
+                    <div class="about-visual fade-in-delay">
+                        <span>🏥</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="contact" class="contact">
-        <div class="container">
-            <div class="section-header fade-in">
-                <div class="section-badge parallax-fast">Get Started</div>
-                <h2 class="section-title parallax-text">Begin Your Journey</h2>
-                <p class="section-subtitle parallax-slow">Ready to take control of your diabetes management? Connect with our team today and start your path to better health.</p>
-            </div>
-            <form class="contact-form fade-in-delay" id="contactForm">
-                <div class="success-message message" id="successMessage">
-                    Thank you! We'll contact you within 48 hours. For urgent matters, email shauntgpapelian@gmail.com directly.
+        <section id="contact" class="section">
+            <div class="container">
+                <div class="section-header fade-in">
+                    <div class="section-badge">Get Started</div>
+                    <h2 class="section-title">Begin Your Journey</h2>
+                    <p class="section-subtitle">Ready to take control of your diabetes management? Connect with our team today and start your path to better health.</p>
                 </div>
-                <div class="error-message message" id="errorMessage">
-                    Please fill out all required fields correctly.
-                </div>
-                
-                <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required placeholder="your.email@example.com">
-                </div>
-                
-                <div class="form-group">
-                    <label for="phone">Phone Number (Optional)</label>
-                    <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567">
-                </div>
-                
-                <div class="form-group">
-                    <label for="service">Service Interest</label>
-                    <select id="service" name="service">
-                        <option value="">Select a service...</option>
-                        <option value="nutrition-planning">Nutrition Planning</option>
-                        <option value="medication-management">Medication Management</option>
-                        <option value="health-education">Health Education</option>
-                        <option value="24-7-support">24/7 Support</option>
-                        <option value="general-inquiry">General Inquiry</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="message">How can we help you?</label>
-                    <textarea id="message" name="message" required placeholder="Tell us about your diabetes management goals and how we can support you on your journey..." rows="4"></textarea>
-                </div>
-                
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    Send Message
-                </button>
-            </form>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 DiabetesConnect. Empowering diabetes care through community support and professional guidance.</p>
-        </div>
-    </footer>
-
-    </div>
-    <!-- End Main Content -->
-
-    <script>
-        // Loading Screen Logic
-        let loadingProgress = 0;
-        const loadingPercentage = document.getElementById('loadingPercentage');
-        
-        function updateLoadingProgress() {
-            if (loadingProgress < 100) {
-                loadingProgress += Math.random() * 15 + 5;
-                if (loadingProgress > 100) loadingProgress = 100;
-                
-                loadingPercentage.textContent = Math.floor(loadingProgress) + '%';
-                
-                setTimeout(updateLoadingProgress, 100 + Math.random() * 200);
-            } else {
-                finishLoading();
-            }
-        }
-
-        function finishLoading() {
-            setTimeout(() => {
-                document.getElementById('loadingScreen').classList.add('hidden');
-                document.getElementById('mainContent').classList.add('loaded');
-                
-                // Initialize animations after loading
-                setTimeout(() => {
-                    observeElements();
-                    initializeCounters();
-                    initializeParallax();
-                }, 300);
-            }, 500);
-        }
-
-        // Start loading animation
-        setTimeout(updateLoadingProgress, 500);
-
-        // Counter Animation
-        function animateCounter(element) {
-            const target = parseInt(element.getAttribute('data-target'));
-            const suffix = element.getAttribute('data-suffix') || '';
-            const prefix = element.getAttribute('data-prefix') || '';
-            const duration = 2000;
-            const increment = target / (duration / 16);
-            let current = 0;
-
-            element.classList.add('counting');
-
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    current = target;
-                    clearInterval(timer);
-                    setTimeout(() => element.classList.remove('counting'), 300);
-                }
-                element.textContent = prefix + Math.floor(current) + suffix;
-            }, 16);
-        }
-
-        function initializeCounters() {
-            const counterObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && !entry.target.hasAttribute('data-animated')) {
-                        entry.target.setAttribute('data-animated', 'true');
-                        setTimeout(() => {
-                            animateCounter(entry.target);
-                        }, Math.random() * 500);
-                    }
-                });
-            }, { threshold: 0.5 });
-
-            document.querySelectorAll('.counter').forEach(counter => {
-                counter.textContent = '0';
-                counterObserver.observe(counter);
-            });
-        }
-
-        // Parallax Scrolling Effects
-        function initializeParallax() {
-            let ticking = false;
-
-            function updateParallax() {
-                const scrolled = window.pageYOffset;
-                const rate = scrolled * -0.5;
-                const rateFast = scrolled * -0.3;
-                const rateSlow = scrolled * -0.7;
-
-                // Different parallax speeds for different elements
-                document.querySelectorAll('.parallax-text').forEach(element => {
-                    const rect = element.getBoundingClientRect();
-                    if (rect.bottom >= 0 && rect.top <= window.innerHeight) {
-                        element.style.transform = `translateY(${rate * 0.1}px)`;
-                    }
-                });
-
-                document.querySelectorAll('.parallax-fast').forEach(element => {
-                    const rect = element.getBoundingClientRect();
-                    if (rect.bottom >= 0 && rect.top <= window.innerHeight) {
-                        element.style.transform = `translateY(${rateFast * 0.15}px)`;
-                    }
-                });
-
-                document.querySelectorAll('.parallax-slow').forEach(element => {
-                    const rect = element.getBoundingClientRect();
-                    if (rect.bottom >= 0 && rect.top <= window.innerHeight) {
-                        element.style.transform = `translateY(${rateSlow * 0.08}px)`;
-                    }
-                });
-
-                ticking = false;
-            }
-
-            function requestParallaxUpdate() {
-                if (!ticking) {
-                    requestAnimationFrame(updateParallax);
-                    ticking = true;
-                }
-            }
-
-            window.addEventListener('scroll', requestParallaxUpdate);
-        }
-
-        // Mouse tracking for cursor effect
-        document.addEventListener('mousemove', (e) => {
-            const mouseX = (e.clientX / window.innerWidth) * 100;
-            const mouseY = (e.clientY / window.innerHeight) * 100;
-            document.body.style.setProperty('--mouse-x', mouseX + '%');
-            document.body.style.setProperty('--mouse-y', mouseY + '%');
-        });
-
-        // Header scroll effect
-        function updateHeader() {
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        }
-
-        window.addEventListener('scroll', updateHeader);
-
-        // Smooth scrolling
-        function scrollToSection(sectionId) {
-            const element = document.getElementById(sectionId);
-            if (element) {
-                element.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        }
-
-        // Navigation click handlers
-        document.querySelectorAll('.nav-links a, .cta-button').forEach(link => {
-            link.addEventListener('click', function(e) {
-                const href = this.getAttribute('href') || this.getAttribute('onclick');
-                if (href && href.includes('#')) {
-                    e.preventDefault();
-                    const targetId = href.split('#')[1] || href.match(/scrollToSection\('([^']+)'\)/)?.[1];
-                    if (targetId) {
-                        scrollToSection(targetId);
-                    }
-                }
-            });
-        });
-
-        // Intersection Observer for animations
-        function observeElements() {
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, observerOptions);
-
-            // Observe all fade-in elements
-            document.querySelectorAll('.fade-in, .fade-in-delay, .fade-in-delay-2').forEach(el => {
-                observer.observe(el);
-            });
-        }
-
-        // Form submission
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const submitBtn = document.getElementById('submitBtn');
-            const successMessage = document.getElementById('successMessage');
-            const errorMessage = document.getElementById('errorMessage');
-            
-            // Hide previous messages
-            successMessage.style.display = 'none';
-            errorMessage.style.display = 'none';
-            
-            // Basic validation
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const message = document.getElementById('message').value.trim();
-            
-            if (!name || !email || !message) {
-                errorMessage.style.display = 'block';
-                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                return;
-            }
-            
-            // Email validation
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                errorMessage.textContent = 'Please enter a valid email address.';
-                errorMessage.style.display = 'block';
-                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                return;
-            }
-            
-            // Disable submit button
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending...';
-            
-            // Simulate form submission (replace with actual form handling)
-            setTimeout(() => {
-                successMessage.style.display = 'block';
-                successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                document.getElementById('contactForm').reset();
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Send Message';
-            }, 1500);
-        });
-
-        // Add some interactive elements
-        document.querySelectorAll('.service-card, .network-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-12px) scale(1.02)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
-        });
-
-        // Enhance CTA buttons with ripple effect
-        document.querySelectorAll('.cta-button').forEach(button => {
-            button.addEventListener('click', function(e) {
-                const ripple = document.createElement('span');
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = x + 'px';
-                ripple.style.top = y + 'px';
-                ripple.classList.add('ripple');
-                
-                this.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
-            });
-        });
-    </script>
-
-    <style>
-        /* Ripple effect for buttons */
-        .cta-button {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .ripple {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            transform: scale(0);
-            animation: ripple 0.6s linear;
-            pointer-events: none;
-        }
-
-        @keyframes ripple {
-            to {
-                transform: scale(2);
-                opacity: 0;
-            }
-        }
-
-        /* Enhanced hover states */
-        .service-card {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .network-card {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Improved accessibility */
-        .cta-button:focus,
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: 2px solid rgba(102, 126, 234, 0.5);
-            outline-offset: 2px;
-        }
-
-        /* Loading state for submit button */
-        .submit-btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        /* Mobile navigation improvements */
-        @media (max-width: 768px) {
-            .hero-badge {
-                font-size: 13px;
-                padding: 10px 20px;
-            }
-            
-            .service-card,
-            .network-card {
-                padding: 32px;
-            }
-            
-            .services,
-            .network,
-            .mission,
-            .about,
-            .contact {
-                padding: 100px 0;
-            }
-            
-            .section-header {
-                margin-bottom: 60px;
-            }
-        }
-    </style>
-</body>
-</html>
+                <form class="contact-form fade-in-delay" id="contactForm">
+                    <div class="success-message message" id="successMessage">
+                        Thank you! We'll contact you within 48 hours. For urgent matters, email shauntgpapelian@gmail.com directly.
+                    </div>
+                    <div class="error-message message" id="errorMessage">
+                        Please fill out all required fields correctly.
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number (Optional)</label>
+                        <input type="tel" id="phone" name="phone" placeholder="(555) 
