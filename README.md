@@ -1,1 +1,1 @@
-# diabetesconnect-website
+# mindconnect-website
