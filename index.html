@@ -789,7 +789,7 @@
             <span class="eyebrow">Our Story</span>
             <h1>Empowering Communities Through <em>Connection</em> and Care</h1>
             <div class="about-hero-sub">
-                <p>MindConnect was founded in the Inland Empire with a simple but urgent belief: every person deserves access to mental health support, regardless of their income, language, or zip code.</p>
+                <p>MindConnect was founded by Shaunt Papelian with a simple but urgent belief: every person deserves access to mental health support, regardless of their income, language, or zip code.</p>
                 <p>We started locally. We think nationally. And we work every day to connect people to the resources, support, and community they need to thrive.</p>
             </div>
         </div>
@@ -854,99 +854,97 @@
     <div class="contact-page">
         <div class="contact-left">
             <div>
-                <div class="breadcrumb"><span onclick="showPage('home')" style="color:rgba(255,255,255,0.7); cursor:pointer;">Home</span> / Get Started</div>
-                <h1>Begin Your Journey to Better Mental Health</h1>
-                <p>Fill out this short form and our team will reach out within 48 hours. All information is kept strictly confidential.</p>
+                <div class="breadcrumb">
+                    <span onclick="showPage('home')" style="color:rgba(255,255,255,0.7); cursor:pointer;">Home</span> / Get Started
+                </div>
+
+                <h1 id="title">Begin Your Journey to Better Mental Health</h1>
+                <p id="subtitle">
+                    Fill out this short form and our team will reach out within 48 hours. All information is kept strictly confidential.
+                </p>
             </div>
+
             <div class="contact-info">
-                <div class="contact-info-item"><div class="info-icon">📧</div><div><div class="info-label">Email Us</div><div class="info-value">info@mindconnect.live</div></div></div>
-                <div class="contact-info-item"><div class="info-icon">🕐</div><div><div class="info-label">Response Time</div><div class="info-value">Within 48 hours</div></div></div>
-                <div class="contact-info-item"><div class="info-icon">🌎</div><div><div class="info-label">Languages</div><div class="info-value">English & Spanish</div></div></div>
-                <div class="contact-info-item"><div class="info-icon">🛟</div><div><div class="info-label">Crisis Support</div><div class="info-value">Available 24/7</div></div></div>
-                <div class="reassurance-block">
-                    <h4>You're in safe hands</h4>
-                    <div class="reassurance-item">All information is strictly confidential</div>
-                    <div class="reassurance-item">HIPAA compliant and secure</div>
-                    <div class="reassurance-item">No insurance required</div>
-                    <div class="reassurance-item">All income levels welcome</div>
-                    <div class="reassurance-item">No judgment, ever</div>
+                <div class="contact-info-item">
+                    <div class="info-icon">📧</div>
+                    <div>
+                        <div class="info-label">Email Us</div>
+                        <div class="info-value">info@mindconnect.live</div>
+                    </div>
                 </div>
             </div>
         </div>
+
         <div class="contact-right">
             <div class="form-title">Let's Get You Connected</div>
             <div class="form-subtitle">This takes about 2 minutes. We'll do the rest.</div>
-            <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill" style="width: 33%"></div></div>
-            <div class="step-indicator">
-                <div class="step-dot active" id="dot1">1</div>
-                <div class="step-line" id="line1"></div>
-                <div class="step-dot pending" id="dot2">2</div>
-                <div class="step-line" id="line2"></div>
-                <div class="step-dot pending" id="dot3">3</div>
+
+            <!-- LANGUAGE TOGGLE -->
+            <div class="lang-toggle" style="margin-bottom:20px;">
+                <div class="lang-btn selected" onclick="setLanguage('en', this)">🇺🇸 English</div>
+                <div class="lang-btn" onclick="setLanguage('es', this)">🇲🇽 Español</div>
             </div>
+
             <div class="form-step active" id="step1">
-                <div style="font-weight:700; font-size:18px; margin-bottom:6px;">Step 1 — About You</div>
-                <div style="font-size:14px; color:var(--muted); margin-bottom:28px;">Tell us a bit about yourself so we can connect you with the right team member.</div>
+                <div id="step1Title" style="font-weight:700; font-size:18px; margin-bottom:6px;">
+                    Step 1 — About You
+                </div>
+
                 <div class="form-row">
-                    <div class="form-group"><label>First Name *</label><input type="text" id="firstName" placeholder="First name"><div class="field-error" id="err-firstName">Please enter your first name.</div></div>
-                    <div class="form-group"><label>Last Name *</label><input type="text" id="lastName" placeholder="Last name"><div class="field-error" id="err-lastName">Please enter your last name.</div></div>
-                </div>
-                <div class="form-group"><label>Email Address *</label><input type="email" id="email" placeholder="your.email@example.com"><div class="field-error" id="err-email">Please enter a valid email address.</div></div>
-                <div class="form-group"><label>Phone Number (Optional)</label><input type="tel" id="phone" placeholder="(555) 123-4567"></div>
-                <div class="form-group">
-                    <label>Preferred Language</label>
-                    <div class="lang-toggle">
-                        <div class="lang-btn selected" onclick="selectLang(this)">🇺🇸 English</div>
-                        <div class="lang-btn" onclick="selectLang(this)">🇲🇽 Español</div>
-                        <div class="lang-btn" onclick="selectLang(this)">Both</div>
+                    <div class="form-group">
+                        <label id="firstNameLabel">First Name *</label>
+                        <input type="text" placeholder="First name">
+                    </div>
+
+                    <div class="form-group">
+                        <label id="lastNameLabel">Last Name *</label>
+                        <input type="text" placeholder="Last name">
                     </div>
                 </div>
-                <div class="btn-nav"><div></div><button class="btn-primary" onclick="goToStep(2)">Continue →</button></div>
-            </div>
-            <div class="form-step" id="step2">
-                <div style="font-weight:700; font-size:18px; margin-bottom:6px;">Step 2 — What You Need</div>
-                <div style="font-size:14px; color:var(--muted); margin-bottom:28px;">Help us understand how we can best support you.</div>
-                <div class="form-group">
-                    <label>Services you're interested in (select all that apply)</label>
-                    <div class="checkbox-grid">
-                        <div class="checkbox-option" onclick="toggleCheck(this)"><div class="checkbox-check"></div> 🥗 Nutrition Planning</div>
-                        <div class="checkbox-option" onclick="toggleCheck(this)"><div class="checkbox-check"></div> 💊 Medication Management</div>
-                        <div class="checkbox-option" onclick="toggleCheck(this)"><div class="checkbox-check"></div> 📚 Health Education</div>
-                        <div class="checkbox-option" onclick="toggleCheck(this)"><div class="checkbox-check"></div> 🛟 24/7 Support</div>
-                        <div class="checkbox-option" onclick="toggleCheck(this)"><div class="checkbox-check"></div> 🏥 Provider Referral</div>
-                        <div class="checkbox-option" onclick="toggleCheck(this)"><div class="checkbox-check"></div> ❓ General Inquiry</div>
-                    </div>
-                </div>
-                <div class="form-group"><label>How would you describe your current situation?</label><select id="situation"><option value="">Select an option...</option><option>I'm just getting started and exploring options</option><option>I have a diagnosis and need support resources</option><option>I'm struggling right now and need help urgently</option><option>I'm a caregiver looking for resources for someone else</option><option>I want to learn more before taking any steps</option></select></div>
-                <div class="btn-nav"><button class="btn-back" onclick="goToStep(1)">← Back</button><button class="btn-primary" onclick="goToStep(3)">Continue →</button></div>
-            </div>
-            <div class="form-step" id="step3">
-                <div style="font-weight:700; font-size:18px; margin-bottom:6px;">Step 3 — Your Message</div>
-                <div style="font-size:14px; color:var(--muted); margin-bottom:28px;">Tell us anything else we should know — the more context, the better we can help.</div>
-                <div class="form-group"><label>How can we help you? *</label><textarea id="message" placeholder="Tell us about your goals, your situation, or any questions you have. There's no wrong answer — this is a safe space." rows="6"></textarea><div class="field-error" id="err-message">Please share a bit about how we can help.</div></div>
-                <div class="form-group"><label>How did you hear about MindConnect?</label><select><option value="">Select...</option><option>Friend or family member</option><option>Healthcare provider</option><option>Social media</option><option>Search engine</option><option>Community event</option><option>Other</option></select></div>
-                <div class="btn-nav"><button class="btn-back" onclick="goToStep(2)">← Back</button><button class="btn-primary" id="submitBtn" onclick="submitForm()">Send My Message ✓</button></div>
-            </div>
-            <div class="success-screen" id="successScreen">
-                <div class="success-icon">✅</div>
-                <h2>Message Received!</h2>
-                <p>Thank you for reaching out. We'll be in touch within 48 hours at:</p>
-                <p class="success-email" id="confirmEmail"></p>
-                <p style="margin-top:8px;">If you don't receive a response, please email us directly at <strong>info@mindconnect.live</strong></p>
-                <div class="next-steps">
-                    <h4>What happens next?</h4>
-                    <div class="next-step-item"><div class="step-num-circle">1</div><p>A team member reviews your message and matches you with the right specialist or resource.</p></div>
-                    <div class="next-step-item"><div class="step-num-circle">2</div><p>We reach out within 48 hours to schedule a call or chat.</p></div>
-                    <div class="next-step-item"><div class="step-num-circle">3</div><p>We create a personalized plan together — connecting you to services, providers, and ongoing support.</p></div>
-                </div>
-                <div style="margin-top:32px;"><button class="btn-secondary" onclick="showPage('home')">← Return to Home</button></div>
+
+                <button id="continueBtn" onclick="goToStep(2)">
+                    Continue →
+                </button>
             </div>
         </div>
     </div>
-    <footer><div class="footer-inner"><span class="footer-logo" onclick="showPage('home')">MindConnect</span><div class="footer-links"><a onclick="showPage('services')">Services</a><a onclick="showPage('network')">Network</a><a onclick="showPage('mission')">Mission</a><a onclick="showPage('about')">About</a></div><div style="font-size:13px;">© 2025 MindConnect.</div></div></footer>
 </div>
 
+<!-- LANGUAGE SCRIPT -->
 <script>
+const translations = {
+    en: {
+        title: "Begin Your Journey to Better Mental Health",
+        subtitle: "Fill out this short form and our team will reach out within 48 hours. All information is kept strictly confidential.",
+        step1: "Step 1 — About You",
+        firstName: "First Name *",
+        lastName: "Last Name *",
+        continue: "Continue →"
+    },
+    es: {
+        title: "Comienza tu camino hacia una mejor salud mental",
+        subtitle: "Completa este breve formulario y nuestro equipo se comunicará contigo dentro de 48 horas. Toda la información es completamente confidencial.",
+        step1: "Paso 1 — Sobre ti",
+        firstName: "Nombre *",
+        lastName: "Apellido *",
+        continue: "Continuar →"
+    }
+};
+
+function setLanguage(lang, el) {
+    // button UI
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('selected'));
+    el.classList.add('selected');
+
+    // text updates
+    document.getElementById("title").innerText = translations[lang].title;
+    document.getElementById("subtitle").innerText = translations[lang].subtitle;
+    document.getElementById("step1Title").innerText = translations[lang].step1;
+    document.getElementById("firstNameLabel").innerText = translations[lang].firstName;
+    document.getElementById("lastNameLabel").innerText = translations[lang].lastName;
+    document.getElementById("continueBtn").innerText = translations[lang].continue;
+}
+</script>
     // ── PAGE ROUTING ──────────────────────────────────────────────
     function showPage(pageId) {
         // Hide all pages
