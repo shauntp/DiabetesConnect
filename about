@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About – MindConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green: #10a37f;
+            --green-dark: #0c8a6b;
+            --green-light: #e8f7f3;
+            --ink: #0f1923;
+            --ink2: #374151;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --surface: #f9fafb;
+            --white: #ffffff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+        header { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.97); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); z-index: 999; }
+        nav { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; height: 68px; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--green); text-decoration: none; }
+        .nav-links { display: flex; list-style: none; gap: 8px; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--ink2); font-weight: 500; font-size: 15px; padding: 8px 14px; border-radius: 8px; transition: all 0.2s; }
+        .nav-links a:hover { background: var(--green-light); color: var(--green); }
+        .nav-links a.active { color: var(--green); font-weight: 600; background: var(--green-light); }
+        .nav-cta { background: var(--green) !important; color: white !important; padding: 9px 18px !important; border-radius: 8px !important; }
+        .nav-cta:hover { background: var(--green-dark) !important; color: white !important; }
+
+        /* ABOUT HERO - editorial style */
+        .about-hero {
+            padding-top: 68px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+        }
+        .about-hero-inner {
+            max-width: 1200px; margin: 0 auto; padding: 80px 24px 80px;
+        }
+        .breadcrumb { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+        .breadcrumb a { color: var(--green); text-decoration: none; }
+        .eyebrow {
+            font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--green); margin-bottom: 20px; display: block;
+        }
+        .about-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(44px, 6vw, 72px); font-weight: 800;
+            line-height: 1.05; letter-spacing: -0.03em;
+            margin-bottom: 0; max-width: 900px;
+        }
+        .about-hero h1 em { font-style: italic; color: var(--green); }
+        .about-hero-sub {
+            margin-top: 40px; padding-top: 40px; border-top: 1px solid var(--border);
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+        }
+        .about-hero-sub p { font-size: 17px; color: var(--muted); line-height: 1.7; }
+
+        /* STORY */
+        .story-section { padding: 100px 0; }
+        .story-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .section-tag { display: inline-block; padding: 4px 12px; background: var(--green); color: white; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 4px; margin-bottom: 16px; }
+
+        .story-layout { display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start; }
+        .story-sidebar { position: sticky; top: 100px; }
+        .story-sidebar h2 {
+            font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700;
+            line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 20px;
+        }
+        .story-sidebar p { font-size: 15px; color: var(--muted); line-height: 1.7; }
+
+        .story-content h3 {
+            font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700;
+            margin-bottom: 14px; margin-top: 40px; letter-spacing: -0.01em;
+        }
+        .story-content h3:first-child { margin-top: 0; }
+        .story-content p { font-size: 16px; color: var(--muted); line-height: 1.8; margin-bottom: 14px; }
+        .story-content p strong { color: var(--ink); }
+
+        .story-pullquote {
+            background: var(--green-light); border-left: 4px solid var(--green);
+            border-radius: 0 12px 12px 0; padding: 24px 28px; margin: 32px 0;
+            font-family: 'Playfair Display', serif; font-size: 20px; font-style: italic;
+            line-height: 1.5; color: var(--ink);
+        }
+
+        /* TEAM */
+        .team-section { background: var(--surface); padding: 100px 0; }
+        .team-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        .section-header { margin-bottom: 56px; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 4vw, 42px); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 16px; }
+        .section-sub { font-size: 17px; color: var(--muted); line-height: 1.65; max-width: 560px; }
+
+        .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .team-card {
+            background: white; border: 1px solid var(--border); border-radius: 16px; padding: 32px;
+            text-align: center; transition: all 0.25s;
+        }
+        .team-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.07); }
+        .team-avatar {
+            width: 80px; height: 80px; border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 32px;
+        }
+        .avatar-1 { background: var(--green-light); }
+        .avatar-2 { background: #eef2ff; }
+        .avatar-3 { background: #fffbeb; }
+        .avatar-4 { background: #fff1f2; }
+        .avatar-5 { background: #f0fdf4; }
+        .avatar-6 { background: #faf5ff; }
+
+        .team-name { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+        .team-role { font-size: 13px; color: var(--green); font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .team-bio { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+        /* COMMITMENT */
+        .commitment-section { padding: 100px 0; }
+        .commitment-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .commitment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 56px; }
+        .commitment-card {
+            border: 1px solid var(--border); border-radius: 16px; padding: 36px;
+            transition: all 0.25s;
+        }
+        .commitment-card:hover { border-color: var(--green); box-shadow: 0 8px 30px rgba(16,163,127,0.08); }
+        .commitment-icon { font-size: 32px; margin-bottom: 16px; }
+        .commitment-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+        .commitment-card p { font-size: 15px; color: var(--muted); line-height: 1.65; }
+
+        /* JOIN SECTION */
+        .join-section {
+            background: linear-gradient(135deg, #0c8a6b 0%, #10a37f 100%);
+            padding: 100px 0; text-align: center; color: white;
+        }
+        .join-inner { max-width: 600px; margin: 0 auto; padding: 0 24px; }
+        .join-section h2 { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.02em; }
+        .join-section p { font-size: 18px; color: rgba(255,255,255,0.75); margin-bottom: 40px; line-height: 1.6; }
+        .join-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .btn-white { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: white; color: var(--green); border: none; border-radius: 10px; font-size: 15px; font-weight: 700; font-family: inherit; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+        .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        .btn-outline-white { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: transparent; color: white; border: 1.5px solid rgba(255,255,255,0.4); border-radius: 10px; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+        .btn-outline-white:hover { border-color: white; background: rgba(255,255,255,0.1); }
+
+        footer { background: #090e14; color: rgba(255,255,255,0.4); padding: 36px 0; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .footer-logo { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: white; }
+        .footer-links { display: flex; gap: 20px; }
+        .footer-links a { text-decoration: none; color: rgba(255,255,255,0.4); font-size: 14px; transition: color 0.2s; }
+        .footer-links a:hover { color: white; }
+
+        .reveal { opacity: 0; transform: translateY(24px); transition: all 0.7s ease; }
+        .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 900px) {
+            .about-hero-sub { grid-template-columns: 1fr; gap: 24px; }
+            .story-layout { grid-template-columns: 1fr; }
+            .story-sidebar { position: static; }
+            .team-grid { grid-template-columns: 1fr 1fr; }
+            .commitment-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="index.html" class="logo">MindConnect</a>
+        <ul class="nav-links">
+            <li><a href="services.html">Services</a></li>
+            <li><a href="network.html">Network</a></li>
+            <li><a href="mission.html">Mission</a></li>
+            <li><a href="about.html" class="active">About</a></li>
+            <li><a href="contact.html" class="nav-cta">Get Started</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="about-hero">
+    <div class="about-hero-inner">
+        <div class="breadcrumb"><a href="index.html">Home</a> / About</div>
+        <span class="eyebrow">Our Story</span>
+        <h1>Empowering Communities Through <em>Connection</em> and Care</h1>
+        <div class="about-hero-sub">
+            <p>MindConnect was founded in the Inland Empire with a simple but urgent belief: every person deserves access to mental health support, regardless of their income, language, or zip code.</p>
+            <p>We started locally. We think nationally. And we work every day to connect people to the resources, support, and community they need to thrive.</p>
+        </div>
+    </div>
+</div>
+
+<!-- STORY -->
+<section class="story-section">
+    <div class="story-inner">
+        <div class="story-layout">
+            <div class="story-sidebar reveal">
+                <div class="section-tag">Our Origin</div>
+                <h2>Born from the Inland Empire</h2>
+                <p>Founded by community members who lived through the gaps in mental health care, MindConnect is built on firsthand understanding of what underserved communities need.</p>
+            </div>
+            <div class="story-content reveal">
+                <h3>The Problem We Couldn't Ignore</h3>
+                <p>The Inland Empire — like many regions across the United States — faces a profound shortage of mental health resources. With only <strong>35 primary care providers per 100,000 residents</strong>, and more than 500,000 people in the region affected by mental health conditions, the gap between need and access is staggering.</p>
+                <p>Our founders saw firsthand how families struggled: long wait times for appointments, confusing insurance requirements, language barriers, and the simple fear of not knowing where to start. Something had to change.</p>
+
+                <div class="story-pullquote">
+                    "We kept hearing the same story — 'I knew I needed help, I just didn't know how to get it.' That became our mission: be the bridge."
+                </div>
+
+                <h3>Why We Built MindConnect</h3>
+                <p>MindConnect was created to solve a coordination problem. The resources often exist — the free clinics, the psychiatrists accepting new patients, the wellness programs, the pharmacies with assistance programs. What's missing is the <strong>connective tissue</strong> that helps people find and access them.</p>
+                <p>We step into that role. We map the landscape of available care, build relationships with providers who share our values, and guide individuals through the process from first contact to ongoing support.</p>
+
+                <h3>What Makes Us Different</h3>
+                <p>Unlike traditional healthcare navigators, MindConnect provides <strong>ongoing peer support</strong>, not just referrals. We stay with you. We check in. We adapt to your changing needs. And we do it in both English and Spanish, because language should never be a barrier to healing.</p>
+                <p>We're also building an educational infrastructure — equipping individuals, families, and caregivers with the knowledge they need to understand, manage, and improve mental health outcomes over the long term.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TEAM -->
+<section class="team-section">
+    <div class="team-inner">
+        <div class="section-header reveal">
+            <div class="section-tag">Our Team</div>
+            <h2 class="section-title">Experts Who Care</h2>
+            <p class="section-sub">Our team brings together certified mental health professionals, peer specialists, community organizers, and healthcare navigators.</p>
+        </div>
+        <div class="team-grid reveal">
+            <div class="team-card">
+                <div class="team-avatar avatar-1">🌱</div>
+                <div class="team-name">Mental Health Specialists</div>
+                <div class="team-role">Clinical Team</div>
+                <div class="team-bio">Licensed therapists and clinical social workers providing evidence-based guidance and direct care coordination.</div>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar avatar-2">🤝</div>
+                <div class="team-name">Peer Support Specialists</div>
+                <div class="team-role">Support Team</div>
+                <div class="team-bio">Certified specialists with lived experience who provide authentic, empathetic support around the clock.</div>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar avatar-3">🗺️</div>
+                <div class="team-name">Care Navigators</div>
+                <div class="team-role">Navigation Team</div>
+                <div class="team-bio">Community health workers who help patients find and access the right resources, insurance, and providers.</div>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar avatar-4">🥗</div>
+                <div class="team-name">Registered Nutritionists</div>
+                <div class="team-role">Wellness Team</div>
+                <div class="team-bio">Certified nutrition experts who develop personalized meal plans with mental health outcomes in mind.</div>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar avatar-5">👩‍⚕️</div>
+                <div class="team-name">Psychiatry Partners</div>
+                <div class="team-role">Medical Network</div>
+                <div class="team-bio">Board-certified psychiatrists in our network who accept new patients and provide medication management.</div>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar avatar-6">📚</div>
+                <div class="team-name">Health Educators</div>
+                <div class="team-role">Education Team</div>
+                <div class="team-bio">Bilingual health educators who develop and lead programs for individuals, families, and community groups.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- COMMITMENTS -->
+<section class="commitment-section">
+    <div class="commitment-inner">
+        <div class="section-header reveal">
+            <div class="section-tag">Our Commitments</div>
+            <h2 class="section-title">What We Promise You</h2>
+            <p class="section-sub">These aren't aspirations — they're the concrete commitments that guide every decision we make.</p>
+        </div>
+        <div class="commitment-grid reveal">
+            <div class="commitment-card">
+                <div class="commitment-icon">🌎</div>
+                <h3>Bilingual Access, Always</h3>
+                <p>Every service, resource, and support conversation is available in both English and Spanish. We're actively expanding to additional languages as our community grows.</p>
+            </div>
+            <div class="commitment-card">
+                <div class="commitment-icon">💚</div>
+                <h3>No One Turned Away</h3>
+                <p>We work with all income levels, insurance statuses, and backgrounds. No one is too complex, too underinsured, or too far from care to receive our support.</p>
+            </div>
+            <div class="commitment-card">
+                <div class="commitment-icon">🔬</div>
+                <h3>Evidence-Based Everything</h3>
+                <p>Every program, recommendation, and resource we provide is grounded in peer-reviewed clinical research and reviewed by our board of mental health professionals.</p>
+            </div>
+            <div class="commitment-card">
+                <div class="commitment-icon">🛡️</div>
+                <h3>Privacy & Dignity</h3>
+                <p>Your information is treated with the utmost confidentiality. We are fully HIPAA compliant and we approach every interaction with the dignity and respect you deserve.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- JOIN -->
+<section class="join-section">
+    <div class="join-inner">
+        <h2>Be Part of the Change</h2>
+        <p>Whether you're seeking support for yourself, looking to refer someone, or want to partner with us — we'd love to connect.</p>
+        <div class="join-buttons">
+            <a href="contact.html" class="btn-white">Get Support →</a>
+            <a href="contact.html" class="btn-outline-white">Partner With Us</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-inner">
+        <div class="footer-logo">MindConnect</div>
+        <div class="footer-links">
+            <a href="services.html">Services</a>
+            <a href="network.html">Network</a>
+            <a href="mission.html">Mission</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div style="font-size:13px;">© 2025 MindConnect.</div>
+    </div>
+</footer>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
